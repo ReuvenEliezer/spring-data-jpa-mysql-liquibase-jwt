@@ -24,12 +24,12 @@ public class Note extends AbstractEntity {
     @Column(name = "Content")
     private String content;
 
-    @Column(name ="createdAt", nullable = false, updatable = false)
+    @Column(name = "createdAt", nullable = false, updatable = false)
 //    @Temporal(TemporalType.TIMESTAMP) //only for date object
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @Column(name ="UpdatedAt" ,nullable = false)
+    @Column(name = "UpdatedAt", nullable = false)
 //    @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private LocalDateTime updatedAt;
@@ -37,14 +37,6 @@ public class Note extends AbstractEntity {
 
     public Note() {
 
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getTitle() {
