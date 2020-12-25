@@ -8,16 +8,22 @@ SET = 'utf8' COLLATE = 'utf8_general_ci';
 GRANT ALL ON `netapp`.* TO 'dbsync' IDENTIFIED BY 'dbsync';
 FLUSH PRIVILEGES;
 
+--changeset reuvene:09092019-01
+CREATE TABLE `netapp`.`abstract_entity`
+(
+    `id`        INT(11)     NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (`id`)
+);
 
 --changeset reuvene:09092019-1
 CREATE TABLE `netapp`.`note`
 (
-    `Id`        INT(11)     NOT NULL AUTO_INCREMENT,
+    `id`        INT(11)     NOT NULL AUTO_INCREMENT,
     `Title`     VARCHAR(45) NULL,
     `Content`   VARCHAR(45) NULL,
     `CreatedAt` DATETIME    NOT NULL,
     `UpdatedAt` DATETIME    NOT NULL,
-    PRIMARY KEY (`Id`)
+    PRIMARY KEY (`id`)
 );
 --     ENGINE = InnoDB
 -- DEFAULT CHARACTER SET = utf8
@@ -40,3 +46,30 @@ CREATE TABLE `netapp`.`book`
 
     PRIMARY KEY (`id`)
 );
+
+--changeset reuvene:09092019-5
+CREATE TABLE `employee` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+--changeset reuvene:09092019-6
+CREATE TABLE `project` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+--changeset reuvene:09092019-7
+CREATE TABLE `employee_project` (
+  `employee_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  PRIMARY KEY (`employee_id`,`project_id`),
+  KEY `project_id` (`project_id`),
+  CONSTRAINT `employee_project_ibfk_1`
+   FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`),
+  CONSTRAINT `employee_project_ibfk_2`
+   FOREIGN KEY (`project_id`) REFERENCES `project` (`id`)
+)
