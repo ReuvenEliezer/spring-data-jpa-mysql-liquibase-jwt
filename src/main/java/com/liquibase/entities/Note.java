@@ -71,4 +71,13 @@ public class Note extends AbstractEntity {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return "Note{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

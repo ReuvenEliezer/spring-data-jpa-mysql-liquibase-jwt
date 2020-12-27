@@ -31,9 +31,15 @@ public class EmployeeTest {
         Project project = new Project();
         project.setTitle("title");
         project = projectDao.save(project);
+        System.out.println(project.toString());
+        Project project2 = new Project();
+        project2.setTitle("title");
+        project2 = projectDao.save(project2);
         Employee employee = new Employee();
-        employee.setProjects(Arrays.asList(project).stream().collect(Collectors.toSet()));
+        employee.setProjects(Arrays.asList(project, project2).stream().collect(Collectors.toSet()));
         employee = employeeDao.save(employee);
 
+        project2.setEmployees(Arrays.asList(employee).stream().collect(Collectors.toSet()));
+        project2 = projectDao.save(project2);
     }
 }

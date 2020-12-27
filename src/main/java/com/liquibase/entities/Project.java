@@ -38,7 +38,7 @@ public class Project extends AbstractEntity {
     @Override
     public String toString() {
         return "Project{" +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", employees=" + employees +
                 '}';
     }
