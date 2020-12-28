@@ -2,7 +2,10 @@ package Tests;
 
 import com.liquibase.LiquibaseApplication;
 import com.liquibase.entities.Employee;
+//import com.liquibase.entities.EmployeeProject;
 import com.liquibase.entities.Project;
+//import com.liquibase.repositories.EmployeeProjectDao;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +14,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.liquibase.repositories.EmployeeDao;
 import com.liquibase.repositories.ProjectDao;
 
-import java.util.Arrays;
+import java.util.*;
 import java.util.stream.Collectors;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = LiquibaseApplication.class)
-public class EmployeeTest {
+
+public class EmployeeTest extends AbstractTest{
 
     @Autowired
     private ProjectDao projectDao;
@@ -24,6 +26,8 @@ public class EmployeeTest {
     @Autowired
     private EmployeeDao employeeDao;
 
+//    @Autowired
+//    private EmployeeProjectDao employeeProjectDao;
 
     @Test
     public void test() {
@@ -38,8 +42,29 @@ public class EmployeeTest {
         Employee employee = new Employee();
         employee.setProjects(Arrays.asList(project, project2).stream().collect(Collectors.toSet()));
         employee = employeeDao.save(employee);
+        Assert.assertEquals(2,employee.getProjects().size());
+        employee.removeProject(project);
+        employee = employeeDao.save(employee);
+        Assert.assertEquals(1,employee.getProjects().size());
 
-        project2.setEmployees(Arrays.asList(employee).stream().collect(Collectors.toSet()));
-        project2 = projectDao.save(project2);
+        projectDao.delete(project2);
+
+    }
+
+    @Test
+    public void test1() {
+        Optional<Project> project = projectDao.findById(6);
+        Project project1 = project.get();
+        project1.removeEmployee(project1.getEmployees().stream().filter(e->e.getId().equals(8)).findFirst().get());
+        Project save = projectDao.save(project1);
+
+//        for (Project project : projectDao.findAll()) {
+//            System.out.println(project.toString());
+//            for (Employee employee : project.getEmployees()) {
+//                project.removeEmployee(employee);
+//            }
+////            projectDao.save(project);
+//        }
+
     }
 }

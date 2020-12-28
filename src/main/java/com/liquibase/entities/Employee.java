@@ -14,10 +14,20 @@ public class Employee extends AbstractEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany//(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER)//(cascade = {CascadeType.ALL})
     @JoinTable(name = "employee_project",
             joinColumns = {@JoinColumn(name = "employee_id")}, inverseJoinColumns = {@JoinColumn(name = "project_id")})
     private Set<Project> projects = new HashSet<>();
+
+    public void addProject(Project project) {
+        this.projects.add(project);
+        project.getEmployees().add(this);
+    }
+
+    public void removeProject(Project project){
+        this.projects.remove(project);
+        project.getEmployees().remove(this);
+    }
 
     // standard constructor/getters/setters
 
@@ -46,12 +56,12 @@ public class Employee extends AbstractEntity {
     }
 
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", projects=" + projects +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Employee{" +
+//                ", firstName='" + firstName + '\'' +
+//                ", lastName='" + lastName + '\'' +
+//                ", projects=" + projects +
+//                '}';
+//    }
 }

@@ -19,9 +19,7 @@ import com.liquibase.services.transactional.TransactionalOperationsUtil;
 import java.util.UUID;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = LiquibaseApplication.class)
-public class RestExamplesTest {
+public class RestExamplesTest extends AbstractTest {
 
     @Autowired
     private NoteDao noteDao;

@@ -12,10 +12,17 @@ public class Project extends AbstractEntity {
     private String title;
 
 
-    @ManyToMany(mappedBy = "projects")
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "projects")
     private Set<Employee> employees = new HashSet<>();
 
-    public Project() {
+    public void addEmployee(Employee employee) {
+        this.employees.add(employee);
+        employee.getProjects().add(this);
+    }
+
+    public void removeEmployee(Employee employee) {
+        this.employees.remove(employee);
+        employee.getProjects().remove(this);
     }
 
     public String getTitle() {
@@ -35,11 +42,11 @@ public class Project extends AbstractEntity {
     }
 
 
-    @Override
-    public String toString() {
-        return "Project{" +
-                "title='" + title + '\'' +
-                ", employees=" + employees +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Project{" +
+//                "title='" + title + '\'' +
+//                ", employees=" + employees +
+//                '}';
+//    }
 }
