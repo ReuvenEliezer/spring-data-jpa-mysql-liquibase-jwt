@@ -61,8 +61,8 @@ public class RestExamplesTest extends AbstractTest {
                 return bookDao.save(new Book(book1Name, author));
             });
         } catch (Exception e) {
+            Assert.fail();
         }
-
 
         Assert.assertNotNull(bookDao.getByName(book1Name));
     }
@@ -82,9 +82,10 @@ public class RestExamplesTest extends AbstractTest {
                 throw new RuntimeException();
             });
         } catch (Exception e) {
+            Assert.assertNull(bookDao.getByName(book1Name));
+            return;
         }
-
-        Assert.assertNull(bookDao.getByName(book1Name));
+        Assert.fail();
     }
 
 

@@ -20,7 +20,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 //@SpringBootApplication(exclude = {HibernateJpaAutoConfiguration.class})
 @SpringBootApplication
 //@EnableJpaRepositories(basePackageClasses = .class)
-public class LiquibaseApplication extends SpringBootServletInitializer {
+public class LiquibaseApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LiquibaseApplication.class, args);
