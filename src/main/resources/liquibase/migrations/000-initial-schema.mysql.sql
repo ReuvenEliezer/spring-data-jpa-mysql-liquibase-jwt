@@ -44,7 +44,10 @@ CREATE TABLE IF NOT EXISTS `netapp`.`book`
     `name`     VARCHAR(45) NULL UNIQUE,
     `author`    BIGINT(20)  NULL ,
 
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+     KEY `id` (`id`),
+  CONSTRAINT `book_ibfk_1`
+      FOREIGN KEY (`author`) REFERENCES `author` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 --changeset reuvene:09092019-5

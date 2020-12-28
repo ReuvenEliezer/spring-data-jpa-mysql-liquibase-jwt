@@ -47,24 +47,8 @@ public class EmployeeTest extends AbstractTest{
         employee = employeeDao.save(employee);
         Assert.assertEquals(1,employee.getProjects().size());
 
-        projectDao.delete(project2);
+//        projectDao.delete(project2);
 
     }
 
-    @Test
-    public void test1() {
-        Optional<Project> project = projectDao.findById(6);
-        Project project1 = project.get();
-        project1.removeEmployee(project1.getEmployees().stream().filter(e->e.getId().equals(8)).findFirst().get());
-        Project save = projectDao.save(project1);
-
-//        for (Project project : projectDao.findAll()) {
-//            System.out.println(project.toString());
-//            for (Employee employee : project.getEmployees()) {
-//                project.removeEmployee(employee);
-//            }
-////            projectDao.save(project);
-//        }
-
-    }
 }
