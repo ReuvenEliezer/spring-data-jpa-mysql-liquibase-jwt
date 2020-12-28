@@ -3,6 +3,7 @@ package Tests;
 import com.liquibase.LiquibaseApplication;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,7 @@ import java.sql.Statement;
 @RunWith(SpringRunner.class)
 @PropertySource("classpath:db.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = LiquibaseApplication.class)
-public abstract class AbstractTest {
+public class AbstractTest {
 
     @Value("${dbPassword}")
     private String dbPassword;
@@ -32,10 +33,31 @@ public abstract class AbstractTest {
     private String connectionURL;
 
 
+    private boolean isDrop = false;
+
+
     @Before
     public void setUp() {
         Connection conn = initConnection();
         truncateDatabase(conn);
+    }
+
+    @Test
+    public void dropDataBase() {
+        Connection conn = initConnection();
+        isDrop = true;
+        dropDatabase(conn);
+    }
+
+    private void dropDatabase(Connection conn) {
+        if (!isDrop) return;
+        try {
+            String catalog = conn.getCatalog();
+            executeSQL(conn, "DROP DATABASE " + catalog);
+            //        executeSQL("DROP DATABASE netapp");
+        } catch (Exception e) {
+            Assert.fail(e.toString());
+        }
     }
 
     private Connection initConnection() {
