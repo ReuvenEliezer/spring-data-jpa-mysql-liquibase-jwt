@@ -1,6 +1,7 @@
 package Tests;
 
 import com.liquibase.LiquibaseApplication;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +42,7 @@ public abstract class AbstractTest {
         try {
             return DriverManager.getConnection(connectionURL, userName, dbPassword);
         } catch (Exception e) {
-
+            Assert.fail(e.toString());
         }
         return null;
     }
@@ -52,7 +53,7 @@ public abstract class AbstractTest {
             executeSQL(conn, "CALL " + catalog + ".TruncateTables");
             //        executeSQL("DROP DATABASE netapp");
         } catch (Exception e) {
-
+            Assert.fail(e.toString());
         }
     }
 
@@ -64,7 +65,7 @@ public abstract class AbstractTest {
             stmt = conn.createStatement();
             stmt.execute(sql);
         } catch (Exception e) {
-            e.printStackTrace();
+            Assert.fail(e.toString());
         } finally {
             try {
                 if (stmt != null)
