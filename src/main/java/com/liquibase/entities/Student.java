@@ -19,21 +19,21 @@ public class Student extends AbstractEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private Set<CourseRating> ratings = new HashSet<>();
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public Set<CourseRating> getRatings() {
-//        return ratings;
-//    }
-//
-//    public void setRatings(Set<CourseRating> ratings) {
-//        this.ratings = ratings;
-//    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<CourseRating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<CourseRating> ratings) {
+        this.ratings = ratings;
+    }
 //
 //    @Override
 //    public String toString() {
