@@ -1,9 +1,9 @@
 package com.liquibase.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +14,7 @@ public class Course extends AbstractEntity{
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "course")
     private Set<CourseRating> ratings = new HashSet<>();
 
     public String getName() {
@@ -37,6 +37,7 @@ public class Course extends AbstractEntity{
     public String toString() {
         return "Course{" +
                 "name='" + name + '\'' +
+//                ", ratings=" + ratings +
                 '}';
     }
 }

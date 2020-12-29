@@ -11,6 +11,7 @@ public class Student extends AbstractEntity {
     @Column(name = "name")
     private String name;
 
+//    @ToString.Exclude
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
     private Set<CourseRating> ratings = new HashSet<>();
 

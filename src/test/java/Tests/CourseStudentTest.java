@@ -54,6 +54,14 @@ public class CourseStudentTest extends AbstractTest {
         System.out.println(studentRatings.getRatings().toString());
         Assert.assertEquals(2, courseDao.findAll().size());
         Assert.assertEquals(1, studentRatings.getRatings().size());
+        Course courseRatings = courseDao.findById(save.getCourse().getId()).get();
+        System.out.println(courseRatings.getRatings().toString());
+        Assert.assertEquals(1, courseRatings.getRatings().size());
+
+        courseRatingDao.delete(courseRating);
+        studentDao.delete(courseRating.getStudent());
+        Optional<Student> byId = studentDao.findById(save.getStudent().getId());
+        Assert.assertFalse(byId.isPresent());
     }
 
 }
