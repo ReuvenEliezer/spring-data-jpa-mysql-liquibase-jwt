@@ -1,32 +1,25 @@
 package Tests;
 
-import com.javadeveloperzone.liquibase.LiquibaseApplication;
-import com.mysql.cj.jdbc.MysqlDataSource;
-import com.mysql.cj.jdbc.exceptions.MySQLTimeoutException;
-import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
-import com.mysql.cj.x.protobuf.MysqlxSql;
-import entities.Author;
-import entities.Book;
+import com.liquibase.LiquibaseApplication;
+import com.liquibase.entities.Author;
+import com.liquibase.entities.Book;
 import org.junit.Assert;
-import repositories.AuthorDao;
-import repositories.BookDao;
-import repositories.NoteDao;
-import entities.Note;
+import com.liquibase.repositories.AuthorDao;
+import com.liquibase.repositories.BookDao;
+import com.liquibase.repositories.NoteDao;
+import com.liquibase.entities.Note;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import services.transactional.TransactionalOperationsUtil;
+import com.liquibase.services.transactional.TransactionalOperationsUtil;
 
-import java.util.List;
 import java.util.UUID;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = LiquibaseApplication.class)
-public class RestExamplesTest {
+public class RestExamplesTest extends AbstractTest {
 
     @Autowired
     private NoteDao noteDao;
@@ -68,8 +61,8 @@ public class RestExamplesTest {
                 return bookDao.save(new Book(book1Name, author));
             });
         } catch (Exception e) {
+            Assert.fail();
         }
-
 
         Assert.assertNotNull(bookDao.getByName(book1Name));
     }
@@ -89,9 +82,10 @@ public class RestExamplesTest {
                 throw new RuntimeException();
             });
         } catch (Exception e) {
+            Assert.assertNull(bookDao.getByName(book1Name));
+            return;
         }
-
-        Assert.assertNull(bookDao.getByName(book1Name));
+        Assert.fail();
     }
 
 
