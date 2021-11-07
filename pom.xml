@@ -93,7 +93,6 @@
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>RELEASE</version>
                 <configuration>
                     <propertyFile>src/main/resources/db.properties</propertyFile>
                 </configuration>
@@ -101,12 +100,10 @@
                     <dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-beans</artifactId>
-                        <version>RELEASE</version>
                     </dependency>
                     <dependency>
                         <groupId>org.springframework.data</groupId>
                         <artifactId>spring-data-jpa</artifactId>
-                        <version>RELEASE</version>
                     </dependency>
                 </dependencies>
             </plugin>
