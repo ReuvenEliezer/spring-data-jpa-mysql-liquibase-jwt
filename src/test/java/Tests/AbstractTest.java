@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 @RunWith(SpringRunner.class)
@@ -38,20 +37,18 @@ public class AbstractTest {
 
     @Before
     public void setUp() {
-        Connection conn = initConnection();
-        truncateDatabase(conn);
+        truncateDatabase();
     }
 
     @Test
     public void dropDataBase() {
-        Connection conn = initConnection();
         isDrop = true;
-        dropDatabase(conn);
+        dropDatabase();
     }
 
-    private void dropDatabase(Connection conn) {
+    private void dropDatabase() {
         if (!isDrop) return;
-        try {
+        try (Connection conn = initConnection()) {
             String catalog = conn.getCatalog();
             executeSQL(conn, "DROP DATABASE " + catalog);
             //        executeSQL("DROP DATABASE netapp");
@@ -69,8 +66,8 @@ public class AbstractTest {
         return null;
     }
 
-    private void truncateDatabase(Connection conn) {
-        try {
+    private void truncateDatabase() {
+        try (Connection conn = initConnection()) {
             String catalog = conn.getCatalog();
             executeSQL(conn, "CALL " + catalog + ".TruncateTables");
             //        executeSQL("DROP DATABASE netapp");
@@ -81,26 +78,11 @@ public class AbstractTest {
 
 
     private void executeSQL(Connection conn, String sql) {
-        Statement stmt = null;
-        try {
+        try (Statement stmt = conn.createStatement()) {
 //            Class.forName(jdbcdriver);
-            stmt = conn.createStatement();
             stmt.execute(sql);
         } catch (Exception e) {
             Assert.fail(e.toString());
-        } finally {
-            try {
-                if (stmt != null)
-                    stmt.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-            try {
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
         }
     }
 }
