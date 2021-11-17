@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Setter
 @ToString
 @Entity
-@Table(name = "casea")
+@Table(name = "cases")
 public class Case extends AbstractEntity {
 
     @Column(name = "name", unique = true)

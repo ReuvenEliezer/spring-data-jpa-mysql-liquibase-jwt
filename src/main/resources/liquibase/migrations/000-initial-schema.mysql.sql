@@ -95,7 +95,7 @@ CREATE TABLE  `course_rating` (
 )
 
 --changeset reuvene:1511272183089-13
-CREATE TABLE `netapp`.`casea` (
+CREATE TABLE `netapp`.`cases` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
@@ -115,7 +115,7 @@ CREATE TABLE `netapp`.`case_profile` (
   `profile_id` BIGINT(20) NOT NULL,
   `case_id` BIGINT(20) NOT NULL,
   PRIMARY KEY (`case_id`, `profile_id`),
-  CONSTRAINT `case_fk` FOREIGN KEY (`case_id`) REFERENCES `netapp`.`casea` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `case_fk` FOREIGN KEY (`case_id`) REFERENCES `netapp`.`cases` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `profile_fk` FOREIGN KEY (`profile_id`) REFERENCES `netapp`.`profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
 
