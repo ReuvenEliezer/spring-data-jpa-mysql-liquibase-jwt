@@ -2,6 +2,7 @@ package com.liquibase.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -9,10 +10,11 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "case_profile")
 @Getter
 @Setter
+@ToString
+@Entity
+@Table(name = "case_profile")
 public class CaseProfile implements Serializable {
 
     @EmbeddedId

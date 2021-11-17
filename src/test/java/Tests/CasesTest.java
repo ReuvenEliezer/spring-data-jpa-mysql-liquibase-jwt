@@ -27,6 +27,18 @@ public class CasesTest extends AbstractTest {
 
     @Test
     public void caseProfileTest() {
+
+        Case caseA = new Case();
+        caseA.setName("case a");
+        caseA = caseDao.save(caseA);
+        System.out.println(caseA);
+
+        Case aCaseB = new Case();
+        aCaseB.setName("case b");
+        aCaseB = caseDao.save(aCaseB);
+        System.out.println(aCaseB);
+
+
         Profile profile1 = new Profile();
         profile1.setFirstName("profile 1");
         profile1.setPhoto("photo.jpg");
@@ -34,22 +46,14 @@ public class CasesTest extends AbstractTest {
         System.out.println(profile1);
 
         Profile profile2 = new Profile();
-        profile1.setFirstName("profile 2");
-        profile1.setPhoto("photo.jpg");
+        profile2.setFirstName("profile 2");
+        profile2.setPhoto("photo.jpg");
         profile2 = profileDao.save(profile2);
         System.out.println(profile2);
 
-        Case aCase = new Case();
-        aCase.setName("case a");
-        aCase = caseDao.save(aCase);
-        System.out.println(aCase);
 
-        Case aCaseB = new Case();
-        aCaseB.setName("case b");
-        aCaseB = caseDao.save(aCaseB);
-        System.out.println(aCaseB);
 
-        CaseProfile caseProfile = new CaseProfile(profile1, aCase);
+        CaseProfile caseProfile = new CaseProfile(profile1, caseA);
         CaseProfile save = caseProfileDao.save(caseProfile);
         Profile profile = profileDao.findById(save.getProfile().getId()).get();
         System.out.println(profile.getFirstName());
@@ -65,7 +69,7 @@ public class CasesTest extends AbstractTest {
         Assert.assertFalse(byId.isPresent());
 
         List<CaseProfile> all = caseProfileDao.findAll();
-        CaseProfile caseProfile1 = caseProfileDao.getCaseProfile(aCase.getId(), profile1.getId());
+        CaseProfile caseProfile1 = caseProfileDao.getCaseProfile(caseA.getId(), profile1.getId());
     }
 
 }
