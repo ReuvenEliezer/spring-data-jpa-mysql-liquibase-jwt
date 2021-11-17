@@ -61,7 +61,7 @@ public class CasesTest extends AbstractTest {
 //        Assert.assertEquals(1, profile.getRatings().size());
         Case courseRatings = caseDao.findById(save.getCase().getId()).get();
         System.out.println(courseRatings.getName());
-//        Assert.assertEquals(1, courseRatings.getRatings().size());
+        Assert.assertEquals(1,  caseProfileDao.findAll().size());
 
         caseProfileDao.delete(caseProfile);
         profileDao.delete(caseProfile.getPk().getProfile());

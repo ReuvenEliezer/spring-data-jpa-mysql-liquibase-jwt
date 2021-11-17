@@ -87,7 +87,7 @@ CREATE TABLE  `course_rating` (
   `student_id` BIGINT(20)  NOT NULL,
   `rating` DOUBLE NULL,
 
-  PRIMARY KEY (`course_id`, `student_id`),   KEY `student_id` (`student_id`),
+  PRIMARY KEY (`course_id`, `student_id`),
       CONSTRAINT `course_rating_course_ibfk_1`
      FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON update NO ACTION ON delete NO ACTION,
     CONSTRAINT `course_rating_course_ibfk_2`
@@ -95,7 +95,7 @@ CREATE TABLE  `course_rating` (
 )
 
 --changeset reuvene:1511272183089-13
-CREATE TABLE `netapp`.`case` (
+CREATE TABLE `netapp`.`casea` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
@@ -111,13 +111,12 @@ CREATE TABLE `netapp`.`profile` (
 )
 
 --changeset reuvene:1511272183089-15
-CREATE TABLE `netapp`.`profile_case` (
+CREATE TABLE `netapp`.`case_profile` (
   `profile_id` BIGINT(20) NOT NULL,
   `case_id` BIGINT(20) NOT NULL,
-  PRIMARY KEY (`case_id`, `profile_id`),   KEY `profile_id` (`case_id`),
-      CONSTRAINT `profile_case_ibfk_1`
-          FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON update NO ACTION ON delete NO ACTION,
-      CONSTRAINT `profile_case_ibfk_2`
-          FOREIGN KEY (`case_id`) REFERENCES `case` (`id`) ON update NO ACTION ON delete NO ACTION
+  PRIMARY KEY (`case_id`, `profile_id`),
+  CONSTRAINT `case_fk` FOREIGN KEY (`case_id`) REFERENCES `netapp`.`casea` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `profile_fk` FOREIGN KEY (`profile_id`) REFERENCES `netapp`.`profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
+
 

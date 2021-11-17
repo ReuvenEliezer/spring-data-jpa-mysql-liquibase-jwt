@@ -21,20 +21,15 @@ public class CaseProfile implements Serializable {
     private CaseProfilePK pk;
 
     public CaseProfile() {
-        this.pk = new CaseProfilePK();
+      pk = new CaseProfilePK();
     }
 
 
     public CaseProfile(Profile profile, Case aCase) {
-        new CaseProfile();
+        pk = new CaseProfilePK();
         pk.setProfile(profile);
         pk.setACase(aCase);
     }
-
-    public CaseProfilePK getPk() {
-        return pk;
-    }
-
 
     public Case getCase() {
         return pk.getACase();
