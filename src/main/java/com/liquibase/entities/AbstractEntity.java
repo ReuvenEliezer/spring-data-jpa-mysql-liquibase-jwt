@@ -17,11 +17,11 @@ import java.util.Objects;
  */
 @Inheritance(strategy = InheritanceType.JOINED)
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type.id")
 @JsonSubTypes({ //for sub abstract class
-//        @JsonSubTypes.Type(value =SubAbstractEntity.class, name = "SubAbstractEntity"),
+        @JsonSubTypes.Type(value = Case.class, name = "Case"),
 })
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // For serialization
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // for serialization
 public abstract class AbstractEntity implements Serializable {
 
     @Id

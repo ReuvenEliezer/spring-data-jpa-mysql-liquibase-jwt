@@ -13,11 +13,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableJpaAuditing
 @ComponentScan(basePackages = {
-        "com.liquibase.dbconfig",
-        "com.liquibase.services"
+        "com.liquibase.config",
+        "com.liquibase.controllers",
+        "com.liquibase.services",
 })
-@EnableJpaRepositories(basePackages = {
-        "com.liquibase.repositories"})
+@EnableJpaRepositories(basePackages = {"com.liquibase.repositories"})
 @EntityScan("com.liquibase.entities")
 @SpringBootApplication
 public class LiquibaseApplication {

@@ -1,10 +1,10 @@
-package com.liquibase.dbconfig;
+package com.liquibase.config;
 
+import com.liquibase.services.ServiceApp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import com.liquibase.services.ServiceApp;
 
 import java.util.HashMap;
 import java.util.Map;
