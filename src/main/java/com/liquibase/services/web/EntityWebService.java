@@ -1,8 +1,10 @@
 package com.liquibase.services.web;
 
+import com.liquibase.client_entities.AbstractEntityViewModel;
+
 import java.util.List;
 
-public interface EntityWebService<VM, ID> {
+public interface EntityWebService<VM extends AbstractEntityViewModel, ID> {
 
     VM saveOrUpdate(VM entity);
 

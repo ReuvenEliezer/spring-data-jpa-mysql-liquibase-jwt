@@ -1,5 +1,6 @@
 package com.liquibase.controllers;
 
+import com.liquibase.client_entities.AbstractEntityViewModel;
 import com.liquibase.services.web.EntityWebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-public abstract class CrudController<VM, ID> {
+public abstract class CrudController<VM extends AbstractEntityViewModel, ID> {
 
     @Autowired
     protected EntityWebService<VM, ID> webService;
