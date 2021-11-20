@@ -10,7 +10,7 @@ import java.util.List;
 public interface CaseProfileDao extends JpaRepository<CaseProfile, CaseProfilePK> {
 
     @Query("select u from #{#entityName} u where u.pk.profile.id = ?1")
-    List<CaseProfile> getAllProfile(Long profileId);
+    List<CaseProfile> getAllByProfile(Long profileId);
 
     @Query("select u from #{#entityName} u where u.pk.aCase.id = ?1")
     List<CaseProfile> getAllByCase(Long caseId);

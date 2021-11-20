@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Optional;
 
 public class CasesTest extends AbstractTest {
 
@@ -63,10 +62,10 @@ public class CasesTest extends AbstractTest {
         System.out.println(courseRatings.getName());
         Assert.assertEquals(1,  caseProfileDao.findAll().size());
 
-        caseProfileDao.delete(caseProfile);
-        profileDao.delete(caseProfile.getPk().getProfile());
-        Optional<Profile> byId = profileDao.findById(save.getProfile().getId());
-        Assert.assertFalse(byId.isPresent());
+//        caseProfileDao.delete(caseProfile);
+//        profileDao.delete(caseProfile.getPk().getProfile());
+//        Optional<Profile> byId = profileDao.findById(save.getProfile().getId());
+//        Assert.assertFalse(byId.isPresent());
 
         List<CaseProfile> all = caseProfileDao.findAll();
         CaseProfile caseProfile1 = caseProfileDao.getCaseProfile(caseA.getId(), profile1.getId());
