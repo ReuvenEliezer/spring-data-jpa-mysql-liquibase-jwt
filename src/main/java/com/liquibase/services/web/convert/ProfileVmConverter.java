@@ -1,4 +1,4 @@
-package com.liquibase.services.web;
+package com.liquibase.services.web.convert;
 
 import com.liquibase.client_entities.ProfileViewModel;
 import com.liquibase.entities.Profile;

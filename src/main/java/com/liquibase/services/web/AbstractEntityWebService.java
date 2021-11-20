@@ -3,6 +3,7 @@ package com.liquibase.services.web;
 import com.liquibase.client_entities.AbstractEntityViewModel;
 import com.liquibase.entities.AbstractEntity;
 import com.liquibase.services.transactional.TransactionalOperationsUtil;
+import com.liquibase.services.web.convert.EntityVmConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
