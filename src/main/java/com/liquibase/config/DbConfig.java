@@ -32,10 +32,6 @@ public class DbConfig {
 //        return createEntityManagerFactory(dataSource(), createAdditionalProperties(), "primaryPersistUnit");
 //    }
 
-//    @Bean
-//    public DataSource dataSource() {
-//        return createDataSource(connectionURL, userName, dbPassword, mySqlDriverName);
-//    }
 
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
