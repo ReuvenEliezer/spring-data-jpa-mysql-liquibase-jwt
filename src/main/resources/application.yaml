@@ -6,15 +6,15 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher #https://stackoverflow.com/questions/70036953/springboot-2-6-0-spring-fox-3-failed-to-start-bean-documentationpluginsboot
-  main:
-#    ┌─────┐
-#    |  caseVmConverter (field private com.liquibase.services.web.convert.ProfileVmConverter com.liquibase.services.web.convert.CaseVmConverter.profileVmConverter)
-#    ↑     ↓
-#    |  profileVmConverter (field private com.liquibase.services.web.convert.CaseVmConverter com.liquibase.services.web.convert.ProfileVmConverter.caseVmConverter)
-#    └─────┘
-#    Action:
-#    Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
-    allow-circular-references: true
+#  main:
+##    ┌─────┐
+##    |  caseVmConverter (field private com.liquibase.services.web.convert.ProfileVmConverter com.liquibase.services.web.convert.CaseVmConverter.profileVmConverter)
+##    ↑     ↓
+##    |  profileVmConverter (field private com.liquibase.services.web.convert.CaseVmConverter com.liquibase.services.web.convert.ProfileVmConverter.caseVmConverter)
+##    └─────┘
+##    Action:
+##    Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+#    allow-circular-references: true
   server:
     port: 8086
   liquibase:

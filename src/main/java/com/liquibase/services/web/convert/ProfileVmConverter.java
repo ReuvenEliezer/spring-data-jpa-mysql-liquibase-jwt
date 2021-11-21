@@ -1,16 +1,10 @@
 package com.liquibase.services.web.convert;
 
-import com.liquibase.client_entities.CaseViewModel;
 import com.liquibase.client_entities.ProfileViewModel;
-import com.liquibase.entities.CaseProfile;
 import com.liquibase.entities.Profile;
-import com.liquibase.repositories.CaseProfileDao;
 import com.liquibase.repositories.ProfileDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class ProfileVmConverter extends AbstractEntityVmConverter<Profile, ProfileViewModel> {
@@ -19,11 +13,11 @@ public class ProfileVmConverter extends AbstractEntityVmConverter<Profile, Profi
     @Autowired
     private ProfileDao profileDao;
 
-    @Autowired
-    private CaseProfileDao caseProfileDao;
+//    @Autowired
+//    private CaseProfileDao caseProfileDao;
 
-    @Autowired
-    private CaseVmConverter caseVmConverter;
+//    @Autowired
+//    private CaseVmConverter caseVmConverter;
 
 
     @Override
@@ -45,19 +39,21 @@ public class ProfileVmConverter extends AbstractEntityVmConverter<Profile, Profi
     }
 
     @Override
-    public ProfileViewModel convertToVM(Profile profile, boolean includeChildren) {
+    public ProfileViewModel convertToVM(Profile profile) {
+        //    public ProfileViewModel convertToVM(Profile profile, boolean includeChildren) {
+
         if (profile == null) return null;
         ProfileViewModel profileViewModel = new ProfileViewModel();
         profileViewModel.setFirstName(profile.getFirstName());
         profileViewModel.setPhoto(profile.getPhoto());
-        if (includeChildren) {
-            List<CaseProfile> allByProfile = caseProfileDao.getAllByProfile(profile.getId());
-            List<CaseViewModel> caseList = allByProfile.stream()
-                    .map(CaseProfile::getCase)
-                    .map(e -> caseVmConverter.convertToVM(e, false))
-                    .collect(Collectors.toList());
-            profileViewModel.setCaseList(caseList);
-        }
+//        if (includeChildren) {
+//            List<CaseProfile> allByProfile = caseProfileDao.getAllByProfile(profile.getId());
+//            List<CaseViewModel> caseList = allByProfile.stream()
+//                    .map(CaseProfile::getCase)
+//                    .map(e -> caseVmConverter.convertToVM(e, false))
+//                    .collect(Collectors.toList());
+//            profileViewModel.setCaseList(caseList);
+//        }
         return profileViewModel;
     }
 

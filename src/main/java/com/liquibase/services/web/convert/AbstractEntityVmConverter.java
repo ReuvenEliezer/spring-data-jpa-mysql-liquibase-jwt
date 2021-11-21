@@ -34,7 +34,8 @@ public abstract class AbstractEntityVmConverter<E extends AbstractEntity, VM ext
     public List<VM> convertToVMList(List<E> entities) {
         List<VM> vmList = new ArrayList<>();
         for (E entity : entities) {
-            VM vm = convertToVM(entity, true);
+//            VM vm = convertToVM(entity, true);
+            VM vm = convertToVM(entity);
             vmList.add(vm);
         }
         return vmList;

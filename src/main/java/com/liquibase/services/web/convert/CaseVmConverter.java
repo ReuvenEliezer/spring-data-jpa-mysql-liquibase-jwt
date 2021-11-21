@@ -90,19 +90,21 @@ public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewMod
     }
 
     @Override
-    public CaseViewModel convertToVM(Case entity, boolean includeChildren) {
+//    public CaseViewModel convertToVM(Case entity, boolean includeChildren) {
+    public CaseViewModel convertToVM(Case entity) {
         if (entity == null) return null;
         CaseViewModel caseViewModel = new CaseViewModel();
         caseViewModel.setName(entity.getName());
         caseViewModel.setId(entity.getId());
-        if (includeChildren) {
-            List<CaseProfile> allByCase = caseProfileDao.getAllByCase(entity.getId());
-            List<ProfileViewModel> profileList = allByCase.stream()
-                    .map(CaseProfile::getProfile)
-                    .map(e -> profileVmConverter.convertToVM(e, false))
-                    .collect(Collectors.toList());
-            caseViewModel.setProfileList(profileList);
-        }
+//        if (includeChildren) {
+        List<CaseProfile> allByCase = caseProfileDao.getAllByCase(entity.getId());
+        List<ProfileViewModel> profileList = allByCase.stream()
+                .map(CaseProfile::getProfile)
+//                    .map(e -> profileVmConverter.convertToVM(e, false))
+                .map(profileVmConverter::convertToVM)
+                .collect(Collectors.toList());
+        caseViewModel.setProfileList(profileList);
+//        }
         return caseViewModel;
     }
 
