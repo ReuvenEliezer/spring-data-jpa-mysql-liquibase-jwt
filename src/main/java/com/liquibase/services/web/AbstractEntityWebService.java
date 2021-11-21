@@ -26,18 +26,17 @@ public abstract class AbstractEntityWebService<E extends AbstractEntity, VM exte
     public VM saveOrUpdate(VM vm) {
         E entity = transactionalOperationsUtil.invokeTransactional(() -> {
             E e = converter.convertFromVM(vm);
+            if (e == null)
+                return null;
             return jpaRepository.save(e);
         });
-        return converter.convertToVM(entity);
+        return converter.convertToVM(entity, true);
     }
 
     @Override
     public VM findById(ID id) {
-        if (id == null) {
-            throw new IllegalArgumentException();
-        }
         E entity = findEntityById(id);
-        return converter.convertToVM(entity);
+        return converter.convertToVM(entity, true);
     }
 
     @Override
@@ -66,6 +65,6 @@ public abstract class AbstractEntityWebService<E extends AbstractEntity, VM exte
     protected E findEntityById(ID id) {
         return jpaRepository.findById(id)
 //                .orElseThrow(EntityNotFoundException::new);
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Entity %s not found - ", id)));
+                .orElseThrow(() -> new EntityNotFoundException(String.format("EntityId '%s' not found in db", id)));
     }
 }

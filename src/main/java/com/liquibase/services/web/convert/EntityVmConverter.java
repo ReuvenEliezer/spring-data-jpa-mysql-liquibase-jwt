@@ -9,7 +9,7 @@ public interface EntityVmConverter<E extends AbstractEntity, VM extends Abstract
 
     E convertFromVM(VM vm);
 
-    VM convertToVM(E entity);
+    VM convertToVM(E entity, boolean includeChildren);
 
     List<E> convertFromVMList(List<VM> vm);
 

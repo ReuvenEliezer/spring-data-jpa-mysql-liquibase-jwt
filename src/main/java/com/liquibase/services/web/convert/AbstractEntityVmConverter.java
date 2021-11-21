@@ -8,7 +8,6 @@ import java.util.List;
 
 public abstract class AbstractEntityVmConverter<E extends AbstractEntity, VM extends AbstractEntityViewModel> implements EntityVmConverter<E, VM> {
 
-
     @Override
     public E convertFromVM(VM vm) {
         E instance;
@@ -35,7 +34,7 @@ public abstract class AbstractEntityVmConverter<E extends AbstractEntity, VM ext
     public List<VM> convertToVMList(List<E> entities) {
         List<VM> vmList = new ArrayList<>();
         for (E entity : entities) {
-            VM vm = convertToVM(entity);
+            VM vm = convertToVM(entity, true);
             vmList.add(vm);
         }
         return vmList;

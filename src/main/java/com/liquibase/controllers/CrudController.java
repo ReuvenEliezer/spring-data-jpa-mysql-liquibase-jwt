@@ -21,7 +21,7 @@ public abstract class CrudController<VM extends AbstractEntityViewModel, ID> {
         return webService.saveOrUpdate(entity);
     }
 
-    @GetMapping(value = "/findById")
+    @GetMapping(value = "/findById/{id}")
     public VM findById(@PathVariable ID id) {
         return webService.findById(id);
     }
