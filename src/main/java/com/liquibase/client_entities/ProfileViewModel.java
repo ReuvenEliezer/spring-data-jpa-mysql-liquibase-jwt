@@ -11,7 +11,7 @@ public class ProfileViewModel extends AbstractEntityViewModel {
 
     private String firstName;
     private String photo;
-//    private List<CaseViewModel> caseList;
+//    private List<CaseViewModel> caseList = new ArrayList<>();
 
 
 }

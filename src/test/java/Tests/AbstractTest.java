@@ -1,13 +1,13 @@
 package Tests;
 
 import com.liquibase.LiquibaseApplication;
+import com.liquibase.config.DbConnectionProp;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Connection;
@@ -15,22 +15,24 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 @RunWith(SpringRunner.class)
-@PropertySource("classpath:db.properties")
+//@PropertySource("classpath:db.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = LiquibaseApplication.class)
 public class AbstractTest {
 
-    @Value("${dbPassword}")
-    private String dbPassword;
+//    @Value("${dbPassword}")
+//    private String dbPassword;
+//
+//    @Value("${dbUserName}")
+//    private String userName;
+//
+//    @Value("${jdbcdriver}")
+//    private String jdbcdriver;
+//
+//    @Value("${connectionURL}")
+//    private String connectionURL;
 
-    @Value("${dbUserName}")
-    private String userName;
-
-    @Value("${jdbcdriver}")
-    private String jdbcdriver;
-
-    @Value("${connectionURL}")
-    private String connectionURL;
-
+    @Autowired
+    private DbConnectionProp dbConnectionProp;
 
     private boolean isDrop = false;
 
@@ -59,7 +61,7 @@ public class AbstractTest {
 
     private Connection initConnection() {
         try {
-            return DriverManager.getConnection(connectionURL, userName, dbPassword);
+            return DriverManager.getConnection(dbConnectionProp.getUrl(), dbConnectionProp.getUser(), dbConnectionProp.getPassword());
         } catch (Exception e) {
             Assert.fail(e.toString());
         }

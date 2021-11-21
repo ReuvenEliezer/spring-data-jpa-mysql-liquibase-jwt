@@ -1,43 +1,30 @@
 package com.liquibase.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource("classpath:db.properties")
-//@EnableJpaRepositories(basePackages = {"dao"})//, "controller.module", "manager"})
 public class DbConfig {
 
-    @Value("${connectionURL}")
-    private String connectionURL;
+    @Autowired
+    private DbConnectionProp dbConnectionProp;
 
-    @Value("${dbUserName}")
-    private String userName;
-
-    @Value("${dbPassword}")
-    private String dbPassword;
-
-    @Value("${jdbcdriver}")
-    private String jdbcdriver;
-
-    @Primary
     @Bean
+    @Primary
     public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url(connectionURL);
-        dataSourceBuilder.username(userName);
-        dataSourceBuilder.password(dbPassword);
-        dataSourceBuilder.driverClassName(jdbcdriver);
+        dataSourceBuilder.url(dbConnectionProp.getUrl());
+        dataSourceBuilder.username(dbConnectionProp.getUser());
+        dataSourceBuilder.password(dbConnectionProp.getPassword());
+        dataSourceBuilder.driverClassName(dbConnectionProp.getJdbcDriver());
         return dataSourceBuilder.build();
     }
-
 
 //    @Primary
 //    @Bean
@@ -49,8 +36,6 @@ public class DbConfig {
 //    public DataSource dataSource() {
 //        return createDataSource(connectionURL, userName, dbPassword, mySqlDriverName);
 //    }
-
-
 
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
