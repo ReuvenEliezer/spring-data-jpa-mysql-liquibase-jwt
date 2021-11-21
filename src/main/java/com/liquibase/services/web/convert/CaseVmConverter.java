@@ -59,9 +59,7 @@ public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewMod
         if (profileList.isEmpty())
             return;
 
-        Set<CaseProfile> alreadyExists = caseProfileDao.getAllByCase(caseEntity.getId()).stream()
-//                .map(CaseProfile::getProfile)
-                .collect(Collectors.toSet());
+        Set<CaseProfile> alreadyExists = new HashSet<>(caseProfileDao.getAllByCase(caseEntity.getId()));
 
         Set<CaseProfile> caseProfilesToDelete = alreadyExists.stream()
                 .filter(caseProfile -> !profileList.contains(caseProfile.getProfile()))
@@ -69,8 +67,6 @@ public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewMod
         if (!caseProfilesToDelete.isEmpty())
             caseProfileDao.deleteAll(caseProfilesToDelete);
 
-        if (1 == 1)
-            throw new IllegalArgumentException();
         Set<CaseProfile> caseProfiles = profileList.stream()
                 .filter(profile -> !alreadyExists.contains(profile))
                 .map(profile -> new CaseProfile(profile, caseEntity))
