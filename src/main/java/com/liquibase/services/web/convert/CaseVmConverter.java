@@ -35,7 +35,7 @@ public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewMod
 
     @Override
     protected void setEntity(Case caseEntity, CaseViewModel caseViewModel) {
-        if (caseViewModel == null || caseEntity==null)
+        if (caseViewModel == null || caseEntity == null)
             throw new IllegalArgumentException();
         caseEntity.setName(caseViewModel.getName());
 
@@ -69,7 +69,8 @@ public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewMod
         if (!caseProfilesToDelete.isEmpty())
             caseProfileDao.deleteAll(caseProfilesToDelete);
 
-
+        if (1 == 1)
+            throw new IllegalArgumentException();
         Set<CaseProfile> caseProfiles = profileList.stream()
                 .filter(profile -> !alreadyExists.contains(profile))
                 .map(profile -> new CaseProfile(profile, caseEntity))
