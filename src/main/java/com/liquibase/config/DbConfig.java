@@ -18,12 +18,12 @@ public class DbConfig {
     @Bean
     @Primary
     public DataSource dataSource() {
-        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url(dbConnectionProp.getUrl());
-        dataSourceBuilder.username(dbConnectionProp.getUser());
-        dataSourceBuilder.password(dbConnectionProp.getPassword());
-        dataSourceBuilder.driverClassName(dbConnectionProp.getJdbcDriver());
-        return dataSourceBuilder.build();
+        return DataSourceBuilder.create()
+                .url(dbConnectionProp.getUrl())
+                .username(dbConnectionProp.getUser())
+                .password(dbConnectionProp.getPassword())
+                .driverClassName(dbConnectionProp.getJdbcDriver())
+                .build();
     }
 
 //    @Primary
