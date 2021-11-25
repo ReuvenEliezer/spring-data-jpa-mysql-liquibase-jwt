@@ -33,4 +33,10 @@ public class ProfileController extends CrudController<ProfileViewModel, Long> {
                 .collect(Collectors.toList()));
     }
 
+    //indicator for profile entity if he related to a case
+    @GetMapping(value = "/isRelatedToAnyCase/{profileId}")
+    public boolean isRelatedToAnyCase(@PathVariable Long profileId) {
+        return caseProfileDao.isProfileRelatedToAnyCase(profileId) > 0;
+    }
+
 }

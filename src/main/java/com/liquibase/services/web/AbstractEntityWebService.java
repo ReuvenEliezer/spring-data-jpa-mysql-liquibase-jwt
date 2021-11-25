@@ -5,10 +5,12 @@ import com.liquibase.entities.AbstractEntity;
 import com.liquibase.services.transactional.TransactionalOperationsUtil;
 import com.liquibase.services.web.convert.EntityVmConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AbstractEntityWebService<E extends AbstractEntity, VM extends AbstractEntityViewModel, ID> implements EntityWebService<VM, ID> {
 
@@ -48,10 +50,6 @@ public abstract class AbstractEntityWebService<E extends AbstractEntity, VM exte
         return converter.convertToVMList(all);
     }
 
-    protected List<E> innerFindAll() {
-        return jpaRepository.findAll();
-    }
-
     @Override
     public void delete(ID id) {
         transactionalOperationsUtil.invokeTransactional(() -> {
@@ -59,6 +57,21 @@ public abstract class AbstractEntityWebService<E extends AbstractEntity, VM exte
             innerDelete(entity);
             return null;
         });
+    }
+
+    @Override
+    public final List<VM> findAll(Pageable pageable) {
+        List<E> all = innerFindAll(pageable);
+        return converter.convertToVMList(all);
+    }
+
+    protected List<E> innerFindAll() {
+        return jpaRepository.findAll();
+    }
+
+    protected List<E> innerFindAll(Pageable pageable) {
+        return jpaRepository.findAll(pageable).stream()
+                .collect(Collectors.toList());
     }
 
     protected void innerDelete(E entity) {

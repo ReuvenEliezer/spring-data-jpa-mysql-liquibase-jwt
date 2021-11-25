@@ -18,4 +18,7 @@ public interface CaseProfileDao extends JpaRepository<CaseProfile, CaseProfilePK
     @Query("select u from #{#entityName} u where u.pk.aCase.id = ?1 and u.pk.profile.id = ?2")
     CaseProfile getCaseProfile(Long caseId, Long profileId);
 
+    @Query("select count(u) from #{#entityName} u where u.pk.profile.id = ?1")
+    Integer isProfileRelatedToAnyCase(Long profileId);
+
 }

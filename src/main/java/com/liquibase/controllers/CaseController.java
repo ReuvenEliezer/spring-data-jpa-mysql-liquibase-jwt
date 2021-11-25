@@ -9,8 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(WsAddressConstants.caseLogicUrl)
 public class CaseController extends CrudController<CaseViewModel, Long> {
 
-    //TODO pageable by size, and sorting desc/asc by given col (user input)
-    //TODO add indicator to profile entity in related to a case
-
 
 }
