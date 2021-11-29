@@ -2,7 +2,6 @@ package com.liquibase.client_entities;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -10,7 +9,6 @@ import java.io.Serializable;
 
 
 @Getter
-@Setter
 @ToString
 @EqualsAndHashCode
 //@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "entityTypeName")
