@@ -4,13 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "abstract_entity")
 
 /**
  * https://thorben-janssen.com/complete-guide-inheritance-strategies-jpa-hibernate/
@@ -19,9 +18,13 @@ import java.util.Objects;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type.id")
 @JsonSubTypes({ //for sub abstract class
-        @JsonSubTypes.Type(value = Case.class, name = "Case"),
+//        @JsonSubTypes.Type(value = Case.class, name = "Case"),
+        @JsonSubTypes.Type(value = Case.class, name = "BaseEntity"),
 })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // for serialization
+@Getter
+@Entity
+@Table(name = "abstract_entity")
 public abstract class AbstractEntity implements Serializable {
 
     @Id
@@ -29,9 +32,6 @@ public abstract class AbstractEntity implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    public Long getId() {
-        return id;
-    }
 
     @Override
     public boolean equals(Object o) {

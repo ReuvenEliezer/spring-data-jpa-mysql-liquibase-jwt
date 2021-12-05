@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @ToString
 @Entity
 @Table(name = "profile")
-public class Profile extends AbstractEntity {
+public class Profile extends BaseEntity {
 
     @Column (name = "first_name")
     private String firstName;

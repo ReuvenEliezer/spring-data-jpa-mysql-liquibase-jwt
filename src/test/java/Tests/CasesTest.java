@@ -25,6 +25,19 @@ public class CasesTest extends AbstractTest {
 
 
     @Test
+    public void auditTest() throws InterruptedException {
+        Case caseA = new Case();
+        caseA.setName("case a");
+        caseA = caseDao.save(caseA);
+        Assert.assertEquals(caseA.getCreatedAt(), caseA.getModifiedAt());
+        Thread.sleep(2000);
+        caseA.setName("case a");
+        caseA = caseDao.save(caseA);
+        Assert.assertNotEquals(caseA.getCreatedAt(), caseA.getModifiedAt());
+    }
+
+
+    @Test
     public void caseProfileTest() {
 
         Case caseA = new Case();
@@ -51,7 +64,6 @@ public class CasesTest extends AbstractTest {
         System.out.println(profile2);
 
 
-
         CaseProfile caseProfile = new CaseProfile(profile1, caseA);
         CaseProfile save = caseProfileDao.save(caseProfile);
         Profile profile = profileDao.findById(save.getProfile().getId()).get();
@@ -60,7 +72,7 @@ public class CasesTest extends AbstractTest {
 //        Assert.assertEquals(1, profile.getRatings().size());
         Case courseRatings = caseDao.findById(save.getCase().getId()).get();
         System.out.println(courseRatings.getName());
-        Assert.assertEquals(1,  caseProfileDao.findAll().size());
+        Assert.assertEquals(1, caseProfileDao.findAll().size());
 
 //        caseProfileDao.delete(caseProfile);
 //        profileDao.delete(caseProfile.getPk().getProfile());

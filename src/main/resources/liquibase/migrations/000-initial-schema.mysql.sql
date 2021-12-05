@@ -13,11 +13,20 @@ FLUSH PRIVILEGES;
 --changeset reuvene:1511272183089-3
 CREATE TABLE  `netapp`.`abstract_entity`(`id`        BIGINT(20)     NOT NULL AUTO_INCREMENT,PRIMARY KEY (`id`));
 
+CREATE TABLE  `netapp`.`base_entity`(
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+   `created_at` DATETIME NULL,
+  `modified_at` DATETIME NULL,
+  `created_by` VARCHAR(255) NULL,
+  `modified_by` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`)
+);
+
 --changeset reuvene:1511272183089-4
 CREATE TABLE  `netapp`.`note`( `id`  BIGINT(20)     NOT NULL AUTO_INCREMENT,
     `Title`     VARCHAR(45) NULL,
-     `Content`   VARCHAR(45) NULL,`CreatedAt` DATETIME    NOT NULL,
-     `UpdatedAt` DATETIME    NOT NULL,PRIMARY KEY (`id`)
+     `Content`   VARCHAR(45) NULL,
+    PRIMARY KEY (`id`)
 )
 --     ENGINE = InnoDB
 -- DEFAULT CHARACTER SET = utf8
