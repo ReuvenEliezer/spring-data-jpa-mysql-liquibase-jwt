@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Entity
 @Table(name = "base_entity")
 @JsonIgnoreProperties(value = {"created_at", "modified_at", "created_by", "modified_by"}, allowGetters = true)
@@ -37,18 +37,22 @@ public abstract class BaseEntity extends AbstractEntity {
     @CreatedDate
     @NotNull
     @Column(name = "created_at", updatable = false)
+    @ToString.Exclude
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "modified_at")
+    @ToString.Exclude
     private LocalDateTime modifiedAt;
 
     @CreatedBy
     @Column(name = "created_by")
+    @ToString.Exclude
     private String createdBy;
 
     @LastModifiedBy
     @Column(name = "modified_by")
+    @ToString.Exclude
     private String modifiedBy;
 
 }

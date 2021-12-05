@@ -1,9 +1,6 @@
 package com.liquibase.client_entities;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -17,9 +14,12 @@ import java.io.Serializable;
 //@JsonSubTypes({
 //        @JsonSubTypes.Type(value = CaseViewModel.class, name = "CaseViewModel"),
 //})
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class AbstractEntityViewModel implements Serializable {
 
     private Long id;
+
 
 }
 

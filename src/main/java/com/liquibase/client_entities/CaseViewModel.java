@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 public class CaseViewModel extends AbstractEntityViewModel {
 
     private String name;

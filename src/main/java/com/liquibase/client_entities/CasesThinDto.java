@@ -4,12 +4,15 @@ import lombok.*;
 
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor //for deserializer
-public class CasesThinDto {
+public class CasesThinDto extends AbstractEntityViewModel {
 
-    private long id;
     private String name;
 
+    public CasesThinDto(Long id, String name) {
+        super(id);
+        this.name = name;
+    }
 }

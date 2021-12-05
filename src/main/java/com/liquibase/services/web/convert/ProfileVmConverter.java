@@ -55,6 +55,7 @@ public class ProfileVmConverter extends AbstractEntityVmConverter<Profile, Profi
         if (profile == null) return null;
         ProfileViewModel profileViewModel = new ProfileViewModel();
         profileViewModel.setFirstName(profile.getFirstName());
+        profileViewModel.setId(profile.getId());
         profileViewModel.setPhoto(profile.getPhoto());
 //        if (includeChildren) {
 //            List<CaseProfile> allByProfile = caseProfileDao.getAllByProfile(profile.getId());

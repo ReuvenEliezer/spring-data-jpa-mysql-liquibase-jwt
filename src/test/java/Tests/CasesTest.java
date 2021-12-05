@@ -34,6 +34,7 @@ public class CasesTest extends AbstractTest {
         caseA.setName("case a");
         caseA = caseDao.save(caseA);
         Assert.assertNotEquals(caseA.getCreatedAt(), caseA.getModifiedAt());
+        System.out.println(caseA);
     }
 
 
