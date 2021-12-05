@@ -1,10 +1,17 @@
 package com.liquibase.services.web.convert;
 
+import com.liquibase.client_entities.CasesThinDto;
 import com.liquibase.client_entities.ProfileViewModel;
+import com.liquibase.entities.CaseProfile;
 import com.liquibase.entities.Profile;
+import com.liquibase.repositories.CaseProfileDao;
 import com.liquibase.repositories.ProfileDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ProfileVmConverter extends AbstractEntityVmConverter<Profile, ProfileViewModel> {
@@ -19,10 +26,13 @@ public class ProfileVmConverter extends AbstractEntityVmConverter<Profile, Profi
 //    @Autowired
 //    private CaseVmConverter caseVmConverter;
 
+    @Autowired
+    private CaseProfileDao caseProfileDao;
+
 
     @Override
     protected void setEntity(Profile profile, ProfileViewModel profileViewModel) {
-        if (profileViewModel == null|| profile==null)
+        if (profileViewModel == null || profile == null)
             throw new IllegalArgumentException();
         profile.setFirstName(profileViewModel.getFirstName());
         profile.setPhoto(profileViewModel.getPhoto());
@@ -54,6 +64,16 @@ public class ProfileVmConverter extends AbstractEntityVmConverter<Profile, Profi
 //                    .collect(Collectors.toList());
 //            profileViewModel.setCaseList(caseList);
 //        }
+
+
+        List<CaseProfile> allByProfile = caseProfileDao.getAllByProfile(profile.getId());
+        List<CasesThinDto> casesThinDtoList = allByProfile.stream()
+                .map(caseProfile -> new CasesThinDto(caseProfile.getCase().getId(), caseProfile.getCase().getName()))
+                .sorted(Comparator.comparing(CasesThinDto::getName))
+                .collect(Collectors.toList());
+
+        profileViewModel.setCasesThinDtoList(casesThinDtoList);
+
         return profileViewModel;
     }
 

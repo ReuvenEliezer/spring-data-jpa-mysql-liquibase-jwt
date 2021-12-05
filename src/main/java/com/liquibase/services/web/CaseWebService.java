@@ -4,6 +4,8 @@ import com.liquibase.client_entities.CaseViewModel;
 import com.liquibase.entities.Case;
 import com.liquibase.repositories.CaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,6 +31,15 @@ public class CaseWebService extends AbstractEntityWebService<Case, CaseViewModel
     @Override
     protected Case findEntityById(Long id) {
         return caseDao.findNonDeleted(id);
+    }
+
+    protected List<Case> innerFindAll(Pageable pageable) {
+        /**
+         * Example.of is return all cases that isDeleted==false, because of the default value of Case entity is isDeleted=false
+         *
+         * https://stackoverflow.com/questions/39823333/use-cases-of-methods-of-querybyexampleexecutort-interface-in-spring-data-jpa
+         */
+        return caseDao.findAll(Example.of(new Case()), pageable).getContent();
     }
 
 }
