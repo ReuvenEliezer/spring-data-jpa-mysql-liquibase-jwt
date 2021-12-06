@@ -26,6 +26,11 @@ import java.time.LocalDateTime;
  * https://stackoverflow.com/questions/49954812/how-can-you-make-a-created-at-column-generate-the-creation-date-time-automatical
  * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#:~:text=the%20following%20example%3A-,Example%20116.%20Auditing%20configuration%20orm.xml,-%3Cpersistence%2Dunit%2Dmetadata
  */
+//@JsonSubTypes({ //for sub abstract class
+//        @JsonSubTypes.Type(value = Case.class, name = "Case"),
+//})
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+
 public abstract class BaseEntity extends AbstractEntity {
 
 /**

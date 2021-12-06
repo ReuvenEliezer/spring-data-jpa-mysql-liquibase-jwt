@@ -11,6 +11,7 @@ import com.liquibase.repositories.ProfileDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -98,6 +99,7 @@ public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewMod
                 .map(CaseProfile::getProfile)
 //                    .map(e -> profileVmConverter.convertToVM(e, false))
                 .map(profileVmConverter::convertToVM)
+                .sorted(Comparator.comparing(ProfileViewModel::getFirstName))
                 .collect(Collectors.toList());
         caseViewModel.setProfileList(profileList);
 //        }

@@ -1,8 +1,6 @@
 package com.liquibase.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.ToString;
@@ -17,11 +15,11 @@ import java.util.Objects;
  */
 @Inheritance(strategy = InheritanceType.JOINED)
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type.id")
-@JsonSubTypes({ //for sub abstract class
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+//@JsonSubTypes({ //for sub abstract class
 //        @JsonSubTypes.Type(value = Case.class, name = "Case"),
-        @JsonSubTypes.Type(value = Case.class, name = "BaseEntity"),
-})
+//        @JsonSubTypes.Type(value = Case.class, name = "BaseEntity"),
+//})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // for serialization
 @Getter
 @ToString

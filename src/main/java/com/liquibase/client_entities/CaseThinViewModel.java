@@ -7,11 +7,11 @@ import lombok.*;
 @ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor //for deserializer
-public class CasesThinDto extends AbstractEntityViewModel {
+public class CaseThinViewModel extends AbstractEntityViewModel {
 
     private String name;
 
-    public CasesThinDto(Long id, String name) {
+    public CaseThinViewModel(Long id, String name) {
         super(id);
         this.name = name;
     }

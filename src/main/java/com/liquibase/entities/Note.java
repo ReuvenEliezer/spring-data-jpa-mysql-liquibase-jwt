@@ -2,16 +2,18 @@ package com.liquibase.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+@ToString(callSuper = true)
+@Setter
+@Getter
 @Entity
 @Table(name = "note")
-@Getter
-@Setter
 public class Note extends BaseEntity {
 
     @NotBlank

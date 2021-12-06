@@ -1,6 +1,6 @@
 package com.liquibase.services.web.convert;
 
-import com.liquibase.client_entities.CasesThinDto;
+import com.liquibase.client_entities.CaseThinViewModel;
 import com.liquibase.client_entities.ProfileViewModel;
 import com.liquibase.entities.CaseProfile;
 import com.liquibase.entities.Profile;
@@ -68,12 +68,12 @@ public class ProfileVmConverter extends AbstractEntityVmConverter<Profile, Profi
 
 
         List<CaseProfile> allByProfile = caseProfileDao.getAllByProfile(profile.getId());
-        List<CasesThinDto> casesThinDtoList = allByProfile.stream()
-                .map(caseProfile -> new CasesThinDto(caseProfile.getCase().getId(), caseProfile.getCase().getName()))
-                .sorted(Comparator.comparing(CasesThinDto::getName))
+        List<CaseThinViewModel> caseThinViewModelList = allByProfile.stream()
+                .map(caseProfile -> new CaseThinViewModel(caseProfile.getCase().getId(), caseProfile.getCase().getName()))
+                .sorted(Comparator.comparing(CaseThinViewModel::getName))
                 .collect(Collectors.toList());
 
-        profileViewModel.setCasesThinDtoList(casesThinDtoList);
+        profileViewModel.setCaseThinViewModelList(caseThinViewModelList);
 
         return profileViewModel;
     }

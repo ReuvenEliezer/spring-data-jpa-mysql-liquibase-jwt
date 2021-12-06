@@ -9,10 +9,14 @@ import com.liquibase.repositories.ProfileDao;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-public class CasesTest extends AbstractTest {
+public class CaseTest extends AbstractTest {
+
+    private static final String localhost = "http://localhost:";
 
     @Autowired
     private CaseDao caseDao;
@@ -23,6 +27,21 @@ public class CasesTest extends AbstractTest {
     @Autowired
     private CaseProfileDao caseProfileDao;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${spring.server.port}")
+    private Integer serverPort;
+
+
+    @Test
+    public void restTest()  {
+        Case caseA = new Case();
+        caseA.setName("case a");
+        Case aCase = restTemplate.postForObject(localhost + serverPort + "/case/", caseA, Case.class);
+        Assert.assertNotNull(aCase);
+        Assert.assertNotNull(aCase.getId());
+    }
 
     @Test
     public void auditTest() throws InterruptedException {
