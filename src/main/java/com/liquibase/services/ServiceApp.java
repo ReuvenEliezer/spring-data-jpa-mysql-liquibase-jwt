@@ -1,12 +1,12 @@
 package com.liquibase.services;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public interface ServiceApp {
 
-    Logger logger = LoggerFactory.getLogger(ServiceApp.class);
+    Logger logger = LogManager.getLogger(ServiceApp.class);
 
     void start();
 
