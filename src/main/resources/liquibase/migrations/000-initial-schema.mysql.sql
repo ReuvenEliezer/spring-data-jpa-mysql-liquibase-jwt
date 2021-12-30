@@ -7,7 +7,7 @@ SET GLOBAL log_bin_trust_function_creators = 1;
 ALTER DATABASE netapp CHARACTER SET = 'utf8' COLLATE = 'utf8_general_ci';
 
 --changeset reuvene:1511272183089-2
-GRANT ALL ON `netapp`.* TO 'dbsync' IDENTIFIED BY 'dbsync';
+--GRANT ALL ON `netapp`.* TO 'dbsync' IDENTIFIED BY 'dbsync';
 FLUSH PRIVILEGES;
 
 --changeset reuvene:1511272183089-3

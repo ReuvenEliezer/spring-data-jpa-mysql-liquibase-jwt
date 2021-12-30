@@ -7,6 +7,6 @@ public class BServiceImpl implements ServiceApp {
 
     @Override
     public void start() {
-        System.out.println("start BServiceImpl");
+        logger.debug("start BServiceImpl");
     }
 }

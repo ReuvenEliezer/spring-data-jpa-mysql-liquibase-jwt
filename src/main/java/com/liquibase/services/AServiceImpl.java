@@ -23,9 +23,9 @@ public class AServiceImpl implements ServiceApp {
     public void start() {
         List<AbstractEntity> all = abstractEntityDao.findAll();
         for (AbstractEntity entity : all) {
-            System.out.println(entity);
+            logger.debug(entity.toString());
         }
-        System.out.println("start AServiceImpl");
+        logger.debug("start AServiceImpl");
         Note note = new Note();
         note.setContent("Content");
         note.setTitle("title");
