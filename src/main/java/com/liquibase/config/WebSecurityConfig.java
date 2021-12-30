@@ -25,8 +25,8 @@
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.inMemoryAuthentication()
-//                .withUser("javainuse")
-//                .password(passwordEncoder().encode("javainuse"))
+//                .withUser("username")
+//                .password(passwordEncoder().encode("password"))
 //                .authorities("ADMIN");
 //    }
 //
