@@ -2,6 +2,9 @@ package Tests;
 
 import com.liquibase.LiquibaseApplication;
 import com.liquibase.config.DbConnectionProp;
+import com.liquibase.repositories.AuthorDao;
+import com.liquibase.repositories.BookDao;
+import com.liquibase.repositories.NoteDao;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +33,14 @@ public class AbstractTest {
 //
 //    @Value("${connectionURL}")
 //    private String connectionURL;
+
+
+    @Autowired
+    protected NoteDao noteDao;
+    @Autowired
+    protected AuthorDao authorDao;
+    @Autowired
+    protected BookDao bookDao;
 
     @Autowired
     private DbConnectionProp dbConnectionProp;
