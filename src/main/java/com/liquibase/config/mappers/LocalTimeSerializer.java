@@ -1,7 +1,6 @@
-package com.liquibase.config.serilizer.mappers;
+package com.liquibase.config.mappers;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 

@@ -1,4 +1,4 @@
-package com.liquibase.config.serilizer.mappers;
+package com.liquibase.config.mappers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

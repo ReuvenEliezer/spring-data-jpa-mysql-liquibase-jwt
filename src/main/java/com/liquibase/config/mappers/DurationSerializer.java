@@ -1,4 +1,4 @@
-package com.liquibase.config.serilizer.mappers;
+package com.liquibase.config.mappers;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,9 +7,6 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.List;
 
 /**
  * Created by dudim on 30/01/2017.

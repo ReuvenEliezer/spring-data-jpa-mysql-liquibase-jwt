@@ -1,9 +1,8 @@
-package com.liquibase.config.serilizer;
+package com.liquibase.config.mappers;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
