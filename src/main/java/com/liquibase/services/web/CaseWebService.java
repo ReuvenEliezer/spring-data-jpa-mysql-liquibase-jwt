@@ -38,6 +38,8 @@ public class CaseWebService extends AbstractEntityWebService<Case, CaseViewModel
          * Example.of is return all cases that isDeleted==false, because of the default value of Case entity is isDeleted=false
          *
          * https://stackoverflow.com/questions/39823333/use-cases-of-methods-of-querybyexampleexecutort-interface-in-spring-data-jpa
+         *
+         * new Case for find the entities that similar to Case with isDeleted=false, in order to not return the cases entities that mark as deleted
          */
         return caseDao.findAll(Example.of(new Case()), pageable).getContent();
     }

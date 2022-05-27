@@ -4,7 +4,7 @@ info:
     version: @project.version@
 spring:
   mvc:
-    pathmatch:
+    path match:
       matching-strategy: ant-path-matcher #https://stackoverflow.com/questions/70036953/springboot-2-6-0-spring-fox-3-failed-to-start-bean-documentationpluginsboot
 #  main:
 ##    ┌─────┐
@@ -22,7 +22,7 @@ spring:
     change-log: classpath:/liquibase/changelog-master.xml
     default-schema: netapp
   datasource:
-    url: jdbc:mysql://localhost:3306/netapp?useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/netapp?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC
     user: root
     password: administrator
     driver-class-name: com.mysql.cj.jdbc.Driver

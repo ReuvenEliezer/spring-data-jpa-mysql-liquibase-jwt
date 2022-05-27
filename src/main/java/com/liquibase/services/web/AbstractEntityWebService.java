@@ -7,6 +7,8 @@ import com.liquibase.services.web.convert.EntityVmConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -18,6 +20,7 @@ public abstract class AbstractEntityWebService<E extends AbstractEntity, VM exte
     protected EntityVmConverter<E, VM> converter;
 
     @Autowired
+//    protected SimpleJpaRepository<E, ID> jpaRepository;
     protected JpaRepository<E, ID> jpaRepository;
 
     @Autowired
