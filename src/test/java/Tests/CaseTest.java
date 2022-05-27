@@ -15,9 +15,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 public class CaseTest extends AbstractTest {
-
-    private static final String localhost = "http://localhost:";
-
     @Autowired
     private CaseDao caseDao;
 
@@ -26,12 +23,6 @@ public class CaseTest extends AbstractTest {
 
     @Autowired
     private CaseProfileDao caseProfileDao;
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Value("${spring.server.port}")
-    private Integer serverPort;
 
 
     @Test

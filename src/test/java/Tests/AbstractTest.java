@@ -10,8 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,6 +23,9 @@ import java.sql.Statement;
 //@PropertySource("classpath:db.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = LiquibaseApplication.class)
 public class AbstractTest {
+
+    protected static final String localhost = "http://localhost:";
+
 
 //    @Value("${dbPassword}")
 //    private String dbPassword;
@@ -34,6 +39,11 @@ public class AbstractTest {
 //    @Value("${connectionURL}")
 //    private String connectionURL;
 
+    @Value("${spring.server.port}")
+    protected Integer serverPort;
+
+    @Autowired
+    protected RestTemplate restTemplate;
 
     @Autowired
     protected NoteDao noteDao;
