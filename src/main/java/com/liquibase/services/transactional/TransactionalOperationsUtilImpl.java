@@ -1,9 +1,7 @@
 package com.liquibase.services.transactional;
 
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TransactionalOperationsUtilImpl implements TransactionalOperationsUtil {
@@ -13,9 +11,5 @@ public class TransactionalOperationsUtilImpl implements TransactionalOperationsU
         return action.invoke();
     }
 
-    @FunctionalInterface
-    public interface TransactionalInvokeAction<T> {
-        T invoke();
-    }
 
 }
