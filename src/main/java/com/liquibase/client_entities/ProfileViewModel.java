@@ -1,8 +1,6 @@
 package com.liquibase.client_entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
