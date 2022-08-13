@@ -7,9 +7,7 @@ import lombok.*;
 import java.io.Serializable;
 
 
-@Setter
-@ToString
-@EqualsAndHashCode
+
 //@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "entityTypeName")
 //@JsonSubTypes({
 //        @JsonSubTypes.Type(value = CaseViewModel.class, name = "CaseViewModel"),
@@ -25,22 +23,16 @@ import java.io.Serializable;
         @JsonSubTypes.Type(value = ProfileViewModel.class, name = "ProfileViewModel"),
 
 })
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 public abstract class AbstractEntityViewModel implements Serializable {
 
     @Getter
     private Long id;
-
-    private String type;
-
-    public AbstractEntityViewModel(Long id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return this.getClass().getSimpleName();
-    }
-
 
 }
 
