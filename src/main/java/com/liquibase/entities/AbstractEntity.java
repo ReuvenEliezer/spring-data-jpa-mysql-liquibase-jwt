@@ -2,8 +2,11 @@ package com.liquibase.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.liquibase.services.audit.AuditTrailListener;
 import lombok.Getter;
 import lombok.ToString;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,7 +28,12 @@ import java.util.Objects;
 @ToString
 @Entity
 @Table(name = "abstract_entity")
+@EntityListeners(AuditTrailListener.class)
 public abstract class AbstractEntity implements Serializable {
+
+//    @Transient
+//    protected final Logger logger = LogManager.getLogger(this.getClass());
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
