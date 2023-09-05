@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <skipTests>true</skipTests>
-        <swagger.version>1.6.9</swagger.version>
+        <swagger.version>1.7.0</swagger.version>
     </properties>
 
     <dependencies>
@@ -38,6 +38,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
+            <!--http://localhost:8080/swagger-ui/index.html -->
             <version>${swagger.version}</version>
         </dependency>
         <!--        <dependency>-->

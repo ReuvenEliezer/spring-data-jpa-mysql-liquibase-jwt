@@ -1,11 +1,14 @@
 package Tests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.liquibase.client_entities.CaseViewModel;
 import com.liquibase.entities.Case;
 import com.liquibase.entities.CaseProfile;
 import com.liquibase.entities.Profile;
 import com.liquibase.repositories.CaseDao;
 import com.liquibase.repositories.CaseProfileDao;
 import com.liquibase.repositories.ProfileDao;
+import com.liquibase.utils.WsAddressConstants;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +29,16 @@ public class CaseTest extends AbstractTest {
 
 
     @Test
-    public void restTest()  {
-        Case caseA = new Case();
+    public void restTest() throws JsonProcessingException {
+        CaseViewModel caseA = new CaseViewModel();
         caseA.setName("case a");
-        Case aCase = restTemplate.postForObject(localhost + serverPort + "/case/", caseA, Case.class);
+        Case aCase = restTemplate.postForObject(localhost + serverPort + WsAddressConstants.caseLogicUrl, caseA, Case.class);
         Assert.assertNotNull(aCase);
         Assert.assertNotNull(aCase.getId());
+
+        String s = objectMapper.writeValueAsString(caseA);
+        CaseViewModel caseViewModel = objectMapper.readValue(s, CaseViewModel.class);
+        Assert.assertNotNull(caseViewModel);
     }
 
     @Test

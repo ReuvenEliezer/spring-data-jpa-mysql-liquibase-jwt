@@ -1,5 +1,6 @@
 package Tests;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liquibase.LiquibaseApplication;
 import com.liquibase.config.DbConnectionProp;
 import com.liquibase.repositories.AuthorDao;
@@ -51,6 +52,9 @@ public class AbstractTest {
     protected AuthorDao authorDao;
     @Autowired
     protected BookDao bookDao;
+
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     @Autowired
     private DbConnectionProp dbConnectionProp;

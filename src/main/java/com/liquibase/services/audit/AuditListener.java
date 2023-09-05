@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class AuditListener extends AbstractRequestLoggingFilter {
 
-
-
     @Override
     protected void beforeRequest(HttpServletRequest request, String message) {
         //TODO do logic
