@@ -3,7 +3,7 @@ package com.liquibase.entities;
 import lombok.Getter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @ToString(callSuper = true)

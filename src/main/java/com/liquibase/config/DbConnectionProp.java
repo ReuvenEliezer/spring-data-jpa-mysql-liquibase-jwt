@@ -14,6 +14,6 @@ public class DbConnectionProp {
     private String url;
     private String user;
     private String password;
-    private String jdbcDriver;
+    private String driverClassName;
 
 }

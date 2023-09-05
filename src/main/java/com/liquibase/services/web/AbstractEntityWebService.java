@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 

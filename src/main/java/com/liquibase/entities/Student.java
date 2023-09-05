@@ -3,7 +3,7 @@ package com.liquibase.entities;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 

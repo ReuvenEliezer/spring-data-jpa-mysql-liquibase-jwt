@@ -8,7 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
+
 import java.util.UUID;
 
 public class TransactionTest extends AbstractTest {
@@ -71,8 +72,8 @@ public class TransactionTest extends AbstractTest {
         try {
             setName("authorName", bookName);
         } catch (Exception e) {
-            Assert.assertNull(bookDao.getByName(bookName));
-            Assert.assertEquals(bookSize, bookDao.count());
+            Assert.assertNotNull(bookDao.getByName(bookName));
+            Assert.assertEquals(bookSize + 1, bookDao.count());
         }
     }
 

@@ -1,12 +1,12 @@
 package com.liquibase.services.audit;
 
 import com.liquibase.entities.AbstractEntity;
+import jakarta.persistence.PostPersist;
+import jakarta.persistence.PostRemove;
+import jakarta.persistence.PostUpdate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.persistence.PostPersist;
-import javax.persistence.PostRemove;
-import javax.persistence.PostUpdate;
 
 public class AuditTrailListener {
 

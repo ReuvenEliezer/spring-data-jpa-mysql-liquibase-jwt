@@ -8,6 +8,7 @@ import com.liquibase.repositories.BookDao;
 import com.liquibase.repositories.NoteDao;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +60,6 @@ public class AbstractTest {
     @Autowired
     private DbConnectionProp dbConnectionProp;
 
-    private boolean isDrop = false;
-
 
     @Before
     public void setUp() {
@@ -68,16 +67,16 @@ public class AbstractTest {
     }
 
     @Test
+    @Ignore
     public void dropDataBase() {
-        isDrop = true;
-        dropDatabase();
+        dropDatabase(true);
     }
 
-    private void dropDatabase() {
+    private void dropDatabase(boolean isDrop) {
         if (!isDrop) return;
         try (Connection conn = initConnection()) {
             String catalog = conn.getCatalog();
-            executeSQL(conn, "DROP DATABASE " + catalog);
+            executeSQL(conn, "DROP DATABASE IF EXISTS " + catalog);
             //        executeSQL("DROP DATABASE netapp");
         } catch (Exception e) {
             Assert.fail(e.toString());

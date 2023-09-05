@@ -1,6 +1,6 @@
 package com.liquibase.entities;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "author")
