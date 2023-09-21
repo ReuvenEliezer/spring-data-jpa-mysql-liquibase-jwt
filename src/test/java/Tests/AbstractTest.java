@@ -14,8 +14,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.utility.DockerImageName;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,11 +29,26 @@ import java.sql.Statement;
 
 @RunWith(SpringRunner.class)
 //@PropertySource("classpath:db.properties")
+@Testcontainers //TODO disable this row in order to running on a real mysql database
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = LiquibaseApplication.class)
 public class AbstractTest {
 
     protected static final String localhost = "http://localhost:";
+    @Container
+    private static MySQLContainer mySQLContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.33"))
+            .withDatabaseName("netapp")
+            .withUsername("root")
+            .withPassword("administrator")
+            ;
 
+    @DynamicPropertySource
+    private static void mysQLContainer(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", () -> "jdbc:mysql://localhost:3306/netapp?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC");
+//        registry.add("spring.datasource.driverClassName", () -> mySQLContainer.getDriverClassName());
+        registry.add("spring.datasource.username", () -> mySQLContainer.getUsername());
+        registry.add("spring.datasource.password", () -> mySQLContainer.getPassword());
+//        registry.add("spring.flyway.enabled", () -> "true");
+    }
 
 //    @Value("${dbPassword}")
 //    private String dbPassword;
