@@ -29,3 +29,13 @@ jobs:
       # The "Build with Maven" step runs the Maven `package` target in non-interactive mode to ensure that your code builds, tests pass, and a package can be created.
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots package
+      - name: Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Maven Tests
+          path: target/surefire-reports/*.xml
+          reporter: java-junit
+          fail-on-error: true
+      - name: Test
+        run: mvn --batch-mode -Dmaven.test.failure.ignore=false test
