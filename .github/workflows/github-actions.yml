@@ -9,7 +9,7 @@ on:
     branches: [ master ]
 #
 jobs:
-  tests:
+  build:
 
     # <!-- This is a YAML comment for use in annotated code examples. -->
     # You can run this workflow using a different operating systems.
@@ -32,4 +32,4 @@ jobs:
           distribution: 'corretto'
       # The "Build with Maven" step runs the Maven `package` target in non-interactive mode to ensure that your code builds, tests pass, and a package can be created.
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots package
+        run: mvn clean install test
