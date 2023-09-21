@@ -27,5 +27,5 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
       # The "Build with Maven" step runs the Maven `package` target in non-interactive mode to ensure that your code builds, tests pass, and a package can be created.
-      - name: Build with Ant
-        run: ant -noinput -buildfile build.xml
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots package
