@@ -43,7 +43,7 @@ public class AbstractTest {
 
     @DynamicPropertySource
     private static void mysQLContainer(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", () -> "jdbc:mysql://localhost:3306/netapp?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC");
+        registry.add("spring.datasource.url", () -> "jdbc:h2:mem:netapp");// "jdbc:h2:file:C:/data/netapp");
 //        registry.add("spring.datasource.driverClassName", () -> mySQLContainer.getDriverClassName());
         registry.add("spring.datasource.username", () -> mySQLContainer.getUsername());
         registry.add("spring.datasource.password", () -> mySQLContainer.getPassword());
@@ -84,7 +84,7 @@ public class AbstractTest {
 
     @Before
     public void setUp() {
-        truncateDatabase();
+//        truncateDatabase();
     }
 
     @Test

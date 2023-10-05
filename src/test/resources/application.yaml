@@ -1,0 +1,51 @@
+spring:
+  mvc:
+    path match:
+      matching-strategy: ant-path-matcher #https://stackoverflow.com/questions/70036953/springboot-2-6-0-spring-fox-3-failed-to-start-bean-documentationpluginsboot
+#  main:
+##    ┌─────┐
+##    |  caseVmConverter (field private com.liquibase.services.web.convert.ProfileVmConverter com.liquibase.services.web.convert.CaseVmConverter.profileVmConverter)
+##    ↑     ↓
+##    |  profileVmConverter (field private com.liquibase.services.web.convert.CaseVmConverter com.liquibase.services.web.convert.ProfileVmConverter.caseVmConverter)
+##    └─────┘
+##    Action:
+##    Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+#    allow-circular-references: true
+  server:
+    port: 8080
+  liquibase:
+    enabled: false
+    change-log: classpath:/liquibase/changelog-master.xml
+    default-schema: netapp
+  datasource:
+    url: jdbc:h2:mem:netapp #jdbc:h2:file:/netapp?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC
+    user: root
+    password: administrator
+    driver-class-name: org.h2.Driver
+      #jdbcdriver=org.h2.Driver  #jdbcdriver=com.mysql.jdbc.Driver //deprecated drive.
+      #https://docs.spring.io/spring-cloud-dataflow/docs/1.1.2.RELEASE/reference/html/configuration-rdbms.html
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings.trace: false
+      settings.web-allow-others: false
+  jpa:
+    database: h2
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: netapp
+        connection:
+          url: jdbc:h2:mem:netapp;INIT=CREATE SCHEMA IF NOT EXISTS netapp
+      username: root
+      password: administrator
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: update #none, create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  output:
+    ansi:
+      enabled: always
