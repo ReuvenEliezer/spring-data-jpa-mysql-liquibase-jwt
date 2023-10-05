@@ -10,6 +10,7 @@ import com.liquibase.repositories.CaseProfileDao;
 import com.liquibase.repositories.ProfileDao;
 import com.liquibase.utils.WsAddressConstants;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 public class CaseTest extends AbstractTest {
+
     @Autowired
     private CaseDao caseDao;
 
@@ -27,6 +29,14 @@ public class CaseTest extends AbstractTest {
     @Autowired
     private CaseProfileDao caseProfileDao;
 
+
+    @Before
+    public void before(){
+        super.setUp();
+        caseProfileDao.deleteAll();
+        profileDao.deleteAll();
+        caseDao.deleteAll();
+    }
 
     @Test
     public void restTest() throws JsonProcessingException {
