@@ -52,10 +52,15 @@ CREATE TABLE  `netapp`.`book`(
 --changeset reuvene:1511272183089-7
 CREATE TABLE  `employee` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) DEFAULT NULL UNIQUE,
+  `password` varchar(50) DEFAULT NULL,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )
+
+--changeset reuvene:1511272183090-7
+CREATE INDEX email_index ON employee (email);
 
 --changeset reuvene:1511272183089-8
 CREATE TABLE  `project` (

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class DbConnectionProp {
 
     private String url;
-    private String user;
+    private String username;
     private String password;
     private String driverClassName;
 

@@ -7,6 +7,8 @@ import com.liquibase.client_entities.AbstractEntityViewModel;
 import com.liquibase.client_entities.CaseViewModel;
 import com.liquibase.client_entities.abstractentities.Data;
 import com.liquibase.utils.WsAddressConstants;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class ExampleController {
+
+    private static final Log logger = LogFactory.getLog(ExampleController.class);
 
     /**
      * https://developpaper.com/deserialization-of-subclasses-in-springboot/
@@ -30,9 +34,9 @@ public class ExampleController {
         AbstractEntityViewModel entityViewModel = entity.getEntityViewModel();
 //        JavaType javaType = objectMapper.constructType(entityViewModel.getClass());
 //        T o = objectMapper.readValue(entityViewModel.toString(), javaType);
-//        System.out.println(o);
+//        logger.info(o);
 
-        System.out.println(entity);
+        logger.info(entity);
     }
 
 

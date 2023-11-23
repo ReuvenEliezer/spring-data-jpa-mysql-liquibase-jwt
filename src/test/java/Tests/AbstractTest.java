@@ -1,11 +1,15 @@
 package Tests;
 
+import Tests.config.WebSecurityTestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liquibase.LiquibaseApplication;
 import com.liquibase.config.DbConnectionProp;
+import com.liquibase.controllers.ControllerExceptionHandler;
 import com.liquibase.repositories.AuthorDao;
 import com.liquibase.repositories.BookDao;
 import com.liquibase.repositories.NoteDao;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -14,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -31,7 +36,10 @@ import java.sql.Statement;
 //@PropertySource("classpath:db.properties")
 @Testcontainers //TODO disable this row in order to running on a real mysql database
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = LiquibaseApplication.class)
+@Import(WebSecurityTestConfig.class)
 public class AbstractTest {
+
+    protected final Logger logger = LogManager.getLogger(this.getClass());
 
     protected static final String localhost = "http://localhost:";
     @Container
@@ -113,7 +121,7 @@ public class AbstractTest {
 
     private Connection initConnection() {
         try {
-            return DriverManager.getConnection(dbConnectionProp.getUrl(), dbConnectionProp.getUser(), dbConnectionProp.getPassword());
+            return DriverManager.getConnection(dbConnectionProp.getUrl(), dbConnectionProp.getUsername(), dbConnectionProp.getPassword());
         } catch (Exception e) {
             Assert.fail(e.toString());
         }

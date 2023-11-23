@@ -13,8 +13,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -31,7 +29,7 @@ public class CaseTest extends AbstractTest {
 
 
     @Before
-    public void before(){
+    public void before() {
         super.setUp();
         caseProfileDao.deleteAll();
         profileDao.deleteAll();
@@ -61,7 +59,7 @@ public class CaseTest extends AbstractTest {
         caseA.setName("case a");
         caseA = caseDao.save(caseA);
         Assert.assertNotEquals(caseA.getCreatedAt(), caseA.getModifiedAt());
-        System.out.println(caseA);
+        logger.info("caseA: {}", caseA);
     }
 
 
@@ -71,35 +69,35 @@ public class CaseTest extends AbstractTest {
         Case caseA = new Case();
         caseA.setName("case a");
         caseA = caseDao.save(caseA);
-        System.out.println(caseA);
+        logger.info(caseA);
 
         Case aCaseB = new Case();
         aCaseB.setName("case b");
         aCaseB = caseDao.save(aCaseB);
-        System.out.println(aCaseB);
+        logger.info(aCaseB);
 
 
         Profile profile1 = new Profile();
         profile1.setFirstName("profile 1");
         profile1.setPhoto("photo.jpg");
         profile1 = profileDao.save(profile1);
-        System.out.println(profile1);
+        logger.info(profile1);
 
         Profile profile2 = new Profile();
         profile2.setFirstName("profile 2");
         profile2.setPhoto("photo.jpg");
         profile2 = profileDao.save(profile2);
-        System.out.println(profile2);
+        logger.info(profile2);
 
 
         CaseProfile caseProfile = new CaseProfile(profile1, caseA);
         CaseProfile save = caseProfileDao.save(caseProfile);
         Profile profile = profileDao.findById(save.getProfile().getId()).get();
-        System.out.println(profile.getFirstName());
+        logger.info(profile.getFirstName());
         Assert.assertEquals(2, caseDao.findAll().size());
 //        Assert.assertEquals(1, profile.getRatings().size());
         Case courseRatings = caseDao.findById(save.getCase().getId()).get();
-        System.out.println(courseRatings.getName());
+        logger.info(courseRatings.getName());
         Assert.assertEquals(1, caseProfileDao.findAll().size());
 
 //        caseProfileDao.delete(caseProfile);

@@ -35,7 +35,7 @@ public class EmployeeTest extends AbstractTest{
         Project project = new Project();
         project.setTitle("title");
         project = projectDao.save(project);
-        System.out.println(project.toString());
+        logger.info(project.toString());
         Project project2 = new Project();
         project2.setTitle("title");
         project2 = projectDao.save(project2);

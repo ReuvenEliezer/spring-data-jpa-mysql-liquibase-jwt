@@ -3,6 +3,8 @@ info:
     name: @project.artifactId@
     version: @project.version@
 spring:
+  application:
+    name: @project.artifactId@
   mvc:
     path match:
       matching-strategy: ant-path-matcher #https://stackoverflow.com/questions/70036953/springboot-2-6-0-spring-fox-3-failed-to-start-bean-documentationpluginsboot
@@ -18,17 +20,27 @@ spring:
   server:
     port: 8080
   liquibase:
-    enabled: true
+    enabled: false
     change-log: classpath:/liquibase/changelog-master.xml
     default-schema: netapp
   datasource:
     url: jdbc:mysql://localhost:3306/netapp?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC
-    user: root
+    username: root
     password: administrator
     driver-class-name: com.mysql.cj.jdbc.Driver
       #jdbcdriver=org.h2.Driver  #jdbcdriver=com.mysql.jdbc.Driver //deprecated drive.
       #https://docs.spring.io/spring-cloud-dataflow/docs/1.1.2.RELEASE/reference/html/configuration-rdbms.html
   jpa:
+    database: h2
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: netapp
+        connection:
+          url: jdbc:h2:mem:netapp;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS netapp
+      username: root
+      password: administrator
+#    database-platform: org.hibernate.dialect.H2Dialect
     open-in-view: false
     hibernate:
       ddl-auto: update #none, create-drop
@@ -37,3 +49,6 @@ spring:
   output:
     ansi:
       enabled: always
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:}, %X{traceId:-}, %X{spanId:-}]"

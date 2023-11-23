@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 import java.sql.Driver;
@@ -24,12 +26,18 @@ public class DbConfig {
     public DataSource dataSource() throws ClassNotFoundException {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setUrl(dbConnectionProp.getUrl());
-        dataSource.setUsername(dbConnectionProp.getUser());
+        dataSource.setUsername(dbConnectionProp.getUsername());
         dataSource.setPassword(dbConnectionProp.getPassword());
 
         Class<? extends Driver> driverClass = (Class<? extends Driver>) Class.forName(dbConnectionProp.getDriverClassName());
         dataSource.setDriverClass(driverClass);
         return dataSource;
+
+//        return new EmbeddedDatabaseBuilder()
+//                .setType(EmbeddedDatabaseType.H2)
+//                .setName("jdbc:h2:mem:netapp;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS netapp")
+//                .ignoreFailedDrops(true)
+//                .build();
     }
 
 

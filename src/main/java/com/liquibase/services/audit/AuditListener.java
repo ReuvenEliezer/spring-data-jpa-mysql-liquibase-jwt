@@ -11,12 +11,12 @@ public class AuditListener extends AbstractRequestLoggingFilter {
     @Override
     protected void beforeRequest(HttpServletRequest request, String message) {
         //TODO do logic
-        System.out.println("beforeRequest");
+        logger.info("beforeRequest");
     }
 
     @Override
     protected void afterRequest(HttpServletRequest request, String message) {
         //TODO do logic
-        System.out.println("afterRequest");
+        logger.info("afterRequest");
     }
 }
