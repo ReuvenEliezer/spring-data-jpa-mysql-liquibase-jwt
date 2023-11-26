@@ -1,4 +1,4 @@
-application.name: ${info.app.name}
+application.name: ${spring.application.name}
 application.version: ${info.app.version}
 spring-boot.version: ${spring-boot.version}
 ${AnsiColor.GREEN}

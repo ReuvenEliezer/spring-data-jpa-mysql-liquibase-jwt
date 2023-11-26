@@ -1,6 +1,5 @@
 info:
   app:
-    name: @project.artifactId@
     version: @project.version@
 spring:
   application:
@@ -20,24 +19,26 @@ spring:
   server:
     port: 8080
   liquibase:
-    enabled: false
+    enabled: false # change to true in order to use a real db and run schema
     change-log: classpath:/liquibase/changelog-master.xml
     default-schema: netapp
   datasource:
-    url: jdbc:mysql://localhost:3306/netapp?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC
+    # for running with docker -> change the port accordingly (see docker-compose file-3366)
+    url: jdbc:mysql://localhost:3306/netapp?user=root&password=administrator&allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
     password: administrator
     driver-class-name: com.mysql.cj.jdbc.Driver
       #jdbcdriver=org.h2.Driver  #jdbcdriver=com.mysql.jdbc.Driver //deprecated drive.
       #https://docs.spring.io/spring-cloud-dataflow/docs/1.1.2.RELEASE/reference/html/configuration-rdbms.html
   jpa:
-    database: h2
+    database: h2 # change to 'mysql' in order to use a real db (like docker)
     show-sql: true
     properties:
       hibernate:
         default_schema: netapp
         connection:
           url: jdbc:h2:mem:netapp;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS netapp
+               #jdbc:mysql://localhost:3366/netapp?user=root&password=administrator&allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC #jdbc:h2:mem:netapp;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS netapp
       username: root
       password: administrator
 #    database-platform: org.hibernate.dialect.H2Dialect

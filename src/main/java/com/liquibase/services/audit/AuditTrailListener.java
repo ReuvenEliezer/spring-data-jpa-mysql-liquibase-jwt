@@ -13,12 +13,12 @@ public class AuditTrailListener {
     /**
      * https://www.baeldung.com/jpa-entity-lifecycle-events
      */
-    private final Logger logger = LogManager.getLogger(this.getClass());
+    private static final Logger logger = LogManager.getLogger(AuditTrailListener.class);
 
     @PostPersist
     @PostUpdate
     @PostRemove
     public void afterAnyUpdate(AbstractEntity entity) {
-        logger.info("[entity AUDIT] add/update/delete complete for entity: " + entity.getId());
+        logger.info("[entity AUDIT] add/update/delete complete for entity: {}", entity.getId());
     }
 }

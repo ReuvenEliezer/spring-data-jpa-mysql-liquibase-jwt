@@ -3,7 +3,7 @@ package com.liquibase.services.security;
 import com.liquibase.controllers.DateTimeController;
 import com.liquibase.entities.Employee;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.impl.crypto.MacProvider;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -28,7 +29,8 @@ public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    private static final Key secret = MacProvider.generateKey(SignatureAlgorithm.HS256);
+    private static final SecretKey secret = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+//    private static final Key secret = MacProvider.generateKey(SignatureAlgorithm.HS256);
     private static final byte[] secretBytes = secret.getEncoded();
     private static final String base64SecretBytes = Base64.getEncoder().encodeToString(secretBytes);
 
@@ -44,12 +46,12 @@ public class JwtUtils {
         Date tokenValidity = Date.from(tokenCreateTime.toInstant().plus(accessTokenValidityDuration));
 
         return Jwts.builder()
-                .setId(id)
-                .setSubject(employee.getEmail())
-                .setIssuedAt(tokenCreateTime)
-                .setNotBefore(tokenCreateTime)
-                .setExpiration(tokenValidity)
-                .signWith(SignatureAlgorithm.HS256, base64SecretBytes)
+                .id(id)
+                .subject(employee.getEmail())
+                .issuedAt(tokenCreateTime)
+                .notBefore(tokenCreateTime)
+                .expiration(tokenValidity)
+                .signWith(secret, Jwts.SIG.HS256)
                 .compact();
 
 //        Claims claims = Jwts.claims()
@@ -68,9 +70,7 @@ public class JwtUtils {
     }
 
     public void verifyToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
-        Claims claims = Jwts.parser()
-                .setSigningKey(base64SecretBytes)
-                .parseClaimsJws(token).getBody();
+        Claims claims = parseJwtClaims(token);
         logger.info("----------------------------");
         logger.info("ID: {}", claims.getId());
         logger.info("Subject: {}", claims.getSubject());
@@ -85,10 +85,10 @@ public class JwtUtils {
 
     private Claims parseJwtClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET)
-                .parseClaimsJws(token)
-                .getBody();
-//        return jwtParser.parseClaimsJws(token).getBody();
+                .verifyWith(secret)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     public Claims resolveClaims(HttpServletRequest req) {
@@ -147,14 +147,8 @@ public class JwtUtils {
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
+        final Claims claims = parseJwtClaims(token);
         return claimsResolver.apply(claims);
-    }
-
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
     }
 
     private Boolean isTokenExpired(String token) {
