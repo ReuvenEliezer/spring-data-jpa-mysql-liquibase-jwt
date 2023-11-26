@@ -1,37 +1,23 @@
 package com.liquibase.services.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.liquibase.entities.Employee;
-import com.liquibase.repositories.EmployeeDao;
-import com.liquibase.services.ServiceApp;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-//import io.jsonwebtoken.JwtParserBuilder;
-import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.time.Duration;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -40,49 +26,33 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 
     /**
+     * https://github.com/hantsy/spring-webmvc-jwt-sample/tree/master
+     * explanation of JwtTokenProvider:
+     * - https://medium.com/spring-boot/spring-boot-3-spring-security-6-jwt-authentication-authorization-98702d6313a5
+     * - https://medium.com/spring-boot/jwt-refresh-token-spring-security-c5b4646cdbd9
+     * - https://codersee.com/spring-boot-3-spring-security-6-with-kotlin-jwt/
      * https://medium.com/code-with-farhan/spring-security-jwt-authentication-authorization-a2c6860be3cf
      * https://github.com/Ozair0/Spring-Boot-3-Auth-JWT-Cookie-JPA/blob/master/src/main/java/com/example/security/full/security/UserSecurity/model/UserSecurity.java
      */
 
-    private final JwtUtils jwtUtil;
-
-    private final EmployeeDao employeeDao;
+    private final JwtTokenProvider jwtTokenProvider;
 
 
     @Autowired
-    public JwtAuthFilter(JwtUtils jwtUtil, EmployeeDao employeeDao) {
-        this.jwtUtil = jwtUtil;
-        this.employeeDao = employeeDao;
+    public JwtAuthFilter(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String accessToken = jwtUtil.resolveToken(request);
-            if (accessToken == null) {
-                filterChain.doFilter(request, response);
-                return;
+            String accessToken = jwtTokenProvider.resolveToken(request);
+            if (accessToken != null) {
+                Authentication auth = jwtTokenProvider.getAuthentication(accessToken);
+                SecurityContext context = SecurityContextHolder.getContext();
+                context.setAuthentication(auth);
+                SecurityContextHolder.setContext(context);
             }
-            logger.info("token: {}", accessToken);
-
-            //option 1
-//            String userEmail = jwtUtil.extractUsername(accessToken);
-//            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-//                Optional<Employee> employee = employeeDao.findByEmail(userEmail);
-//
-//                if (employee.isPresent() && jwtUtil.validateToken(accessToken, employee.get().getEmail())) {
-//                    UsernamePasswordAuthenticationToken authToken =
-//                            new UsernamePasswordAuthenticationToken(userEmail, null, new ArrayList<>());
-//                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//                    SecurityContextHolder.getContext().setAuthentication(authToken);
-//                }
-//            }
-
-            //option 2
-            jwtUtil.verifyToken(accessToken);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(accessToken, "", new ArrayList<>());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
         } catch (Exception e) {
             Map<String, String> errorDetails = new HashMap<>(2);
             errorDetails.put("message", "Authentication Error");

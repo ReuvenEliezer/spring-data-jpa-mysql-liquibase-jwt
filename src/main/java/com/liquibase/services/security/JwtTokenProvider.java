@@ -1,44 +1,134 @@
 package com.liquibase.services.security;
 
-import com.liquibase.controllers.DateTimeController;
 import com.liquibase.entities.Employee;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedCredentialsNotFoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import static java.util.stream.Collectors.joining;
+
 @Component
-public class JwtUtils {
+public class JwtTokenProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-
-    private static final SecretKey secret = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-//    private static final Key secret = MacProvider.generateKey(SignatureAlgorithm.HS256);
-    private static final byte[] secretBytes = secret.getEncoded();
-    private static final String base64SecretBytes = Base64.getEncoder().encodeToString(secretBytes);
-
-    private static final String SECRET = "eyJhbGciOiJIUzUxMiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwMDY3MjcxOSwiaWF0IjoxNzAwNjcyNzE5fQ.2fwao_subAj8bp_P0E-RE-sDjybeYoaTMy77LI3CLUNE8UyP7kQ40YwJmH4BkQf2yUuo_abnAHQZwNFEDt1ABA";
-    //    private static final JwtParser jwtParser = Jwts.parser().key().and().build();
-    private static final Duration accessTokenValidityDuration = Duration.ofMinutes(10);
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
+    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final Duration accessTokenValidityDuration = Duration.ofSeconds(10);
     private static final String TOKEN_PREFIX = "Bearer ";
+    private static final String AUTHORITIES_KEY = "roles";
 
+
+    public String createToken(Authentication authentication) {
+
+        String email = authentication.getName();
+        ClaimsBuilder claimsBuilder = Jwts.claims().subject(email);
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        if (!authorities.isEmpty()) {
+            claimsBuilder.add(AUTHORITIES_KEY, authorities.stream().map(GrantedAuthority::getAuthority).collect(joining(",")));
+        }
+
+        Claims claims = claimsBuilder.build();
+        String id = UUID.randomUUID().toString().replace("-", "");
+        Date tokenCreateTime = new Date();
+        Date tokenValidity = Date.from(tokenCreateTime.toInstant().plus(accessTokenValidityDuration));
+
+//        return Jwts.builder()
+//                .claims(claims)
+//                .issuedAt(tokenCreateTime)
+//                .expiration(tokenValidity)
+//                .signWith(SECRET_KEY, Jwts.SIG.HS256)
+//                .compact();
+
+
+        return Jwts.builder()
+                .id(id)
+                .claims(claims)
+//                .subject(email)
+                .issuedAt(tokenCreateTime)
+                .notBefore(tokenCreateTime)
+                .expiration(tokenValidity)
+                .signWith(SECRET_KEY, Jwts.SIG.HS256)
+                .compact();
+
+    }
+
+    public String createToken(String email) {
+        ClaimsBuilder claimsBuilder = Jwts.claims().subject(email);
+        Claims claims = claimsBuilder.build();
+        String id = UUID.randomUUID().toString().replace("-", "");
+        Date tokenCreateTime = new Date();
+        Date tokenValidity = Date.from(tokenCreateTime.toInstant().plus(accessTokenValidityDuration));
+        return Jwts.builder()
+                .id(id)
+                .claims(claims)
+//                .subject(email)
+                .issuedAt(tokenCreateTime)
+                .notBefore(tokenCreateTime)
+                .expiration(tokenValidity)
+                .signWith(SECRET_KEY, Jwts.SIG.HS256)
+                .compact();
+
+    }
+
+
+    public String getUserName(String token) {
+        return Jwts.parser()
+                .verifyWith(SECRET_KEY)
+                .build()
+//                .parseClaimsJws(token)
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
+
+    public Authentication getAuthentication(String token) throws JwtException, IllegalArgumentException {
+        Claims claims = Jwts.parser()
+                .verifyWith(SECRET_KEY)
+                .build()
+                .parseSignedClaims(token) //parseClaimsJws will check expiration date
+                .getPayload();
+
+        String email = claims.getSubject(); //username
+        Object authoritiesClaim = claims.get(AUTHORITIES_KEY);
+
+        Collection<? extends GrantedAuthority> authorities = authoritiesClaim == null ? AuthorityUtils.NO_AUTHORITIES
+                : AuthorityUtils.commaSeparatedStringToAuthorityList(authoritiesClaim.toString());
+
+        User principal = new User(claims.getSubject(), "", authorities);
+
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parser()
+                    .verifyWith(SECRET_KEY)
+                    .build()
+                    .parseSignedClaims(token);
+
+            logger.info("expiration date: {}", claims.getPayload().getExpiration());
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            logger.error("Invalid JWT token: {}", e.getMessage());
+        }
+        return false;
+    }
 
     public String createToken(Employee employee) {
         String id = UUID.randomUUID().toString().replace("-", "");
@@ -51,7 +141,7 @@ public class JwtUtils {
                 .issuedAt(tokenCreateTime)
                 .notBefore(tokenCreateTime)
                 .expiration(tokenValidity)
-                .signWith(secret, Jwts.SIG.HS256)
+                .signWith(SECRET_KEY, Jwts.SIG.HS256)
                 .compact();
 
 //        Claims claims = Jwts.claims()
@@ -85,7 +175,7 @@ public class JwtUtils {
 
     private Claims parseJwtClaims(String token) {
         return Jwts.parser()
-                .verifyWith(secret)
+                .verifyWith(SECRET_KEY)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
@@ -120,7 +210,7 @@ public class JwtUtils {
 
     public String resolveToken(HttpServletRequest request) {
         final String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)) {
             return bearerToken.substring(TOKEN_PREFIX.length());
         }
         return null;

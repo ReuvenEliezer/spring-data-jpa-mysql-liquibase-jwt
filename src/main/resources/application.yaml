@@ -24,7 +24,7 @@ spring:
     default-schema: netapp
   datasource:
     # for running with docker -> change the port accordingly (see docker-compose file-3366)
-    url: jdbc:mysql://localhost:3306/netapp?user=root&password=administrator&allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/netapp?user=${spring.datasource.username}&password=${spring.datasource.password}&allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
     password: administrator
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -38,7 +38,7 @@ spring:
         default_schema: netapp
         connection:
           url: jdbc:h2:mem:netapp;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS netapp
-               #jdbc:mysql://localhost:3366/netapp?user=root&password=administrator&allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC #jdbc:h2:mem:netapp;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS netapp
+#          url: jdbc:mysql://localhost:3366/netapp?user=${spring.jpa.properties.username}&password=${spring.jpa.properties.password}&allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&createDatabaseIfNotExist=true&serverTimezone=UTC #jdbc:h2:mem:netapp;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS netapp
       username: root
       password: administrator
 #    database-platform: org.hibernate.dialect.H2Dialect
