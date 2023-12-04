@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!--        <skipTests>false</skipTests>-->
-        <swagger.version>2.2.0</swagger.version>
+        <swagger.version>2.3.0</swagger.version>
         <jwt.version>0.12.3</jwt.version>
     </properties>
 
