@@ -28,6 +28,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -50,6 +51,9 @@ public class AbstractTest {
             .withUsername("root")
             .withPassword("administrator")
             ;
+
+    @Autowired
+    private DataSource dataSource;
 
     @DynamicPropertySource
     private static void mysQLContainer(DynamicPropertyRegistry registry) {

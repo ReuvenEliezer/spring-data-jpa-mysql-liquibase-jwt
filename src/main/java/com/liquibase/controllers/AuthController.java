@@ -26,6 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
+    /**
+     * flow logic for login & refresh token :
+     *  https://stackoverflow.com/questions/63426347/how-can-i-refresh-tokens-in-spring-security
+     */
+
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final EmployeeDao employeeDao;

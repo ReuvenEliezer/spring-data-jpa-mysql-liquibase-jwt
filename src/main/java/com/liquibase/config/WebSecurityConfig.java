@@ -33,8 +33,8 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    @Autowired
-    private ApplicationContext appContext;
+//    @Autowired
+//    private ApplicationContext appContext;
 
     @Bean
     @Profile("!test")
