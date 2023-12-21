@@ -10,6 +10,7 @@ on:
 #
 jobs:
   build:
+    permissions: write-all #for dependabot auto PR - create a test report
 
     # <!-- This is a YAML comment for use in annotated code examples. -->
     # You can run this workflow using a different operating systems.
@@ -46,11 +47,11 @@ jobs:
 #          report_paths: '**/build/test-results/test/TEST-*.xml'
 #      - name: Run JUnit Tests
 #        run: mvn test
-      - name: JUnit Test Report  #for dependabot auto PR
+      - name: JUnit Test Report
         uses: mikepenz/action-junit-report@v4
-        if: success() || failure() # always run even if the previous step fails
+        if: (success() || failure()) # always run even if the previous step fails
         with:
-          report_paths: converter-service/target/surefire-reports/*.xml
+          report_paths: target/surefire-reports/*.xml
       - name: JUnit Test Report #for analysis tests report as a table
         uses: dorny/test-reporter@v1.7.0 #{owner}/{repository}@{ref}
         if: always()
