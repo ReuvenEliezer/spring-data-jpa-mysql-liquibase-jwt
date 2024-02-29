@@ -1,6 +1,7 @@
 package com.liquibase.controllers;
 
 import com.liquibase.client_entities.CaseViewModel;
+import com.liquibase.services.web.EntityWebService;
 import com.liquibase.utils.WsAddressConstants;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,4 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CaseController extends CrudController<CaseViewModel, Long> {
 
 
+    CaseController(EntityWebService<CaseViewModel, Long> webService) {
+        super(webService);
+    }
 }

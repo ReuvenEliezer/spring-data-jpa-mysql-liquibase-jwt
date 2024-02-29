@@ -4,28 +4,29 @@ import com.liquibase.client_entities.AbstractEntityViewModel;
 import com.liquibase.entities.AbstractEntity;
 import com.liquibase.services.transactional.TransactionalOperationsUtil;
 import com.liquibase.services.web.convert.EntityVmConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class AbstractEntityWebService<E extends AbstractEntity, VM extends AbstractEntityViewModel, ID> implements EntityWebService<VM, ID> {
 
-    @Autowired
-    protected EntityVmConverter<E, VM> converter;
+    private final EntityVmConverter<E, VM> converter;
 
-    @Autowired
-//    protected SimpleJpaRepository<E, ID> jpaRepository;
-    protected JpaRepository<E, ID> jpaRepository;
+    //    protected SimpleJpaRepository<E, ID> jpaRepository;
+    private final JpaRepository<E, ID> jpaRepository;
 
-    @Autowired
-    private TransactionalOperationsUtil transactionalOperationsUtil;
+    private final TransactionalOperationsUtil transactionalOperationsUtil;
 
+    AbstractEntityWebService(EntityVmConverter<E, VM> converter,
+                             JpaRepository<E, ID> jpaRepository,
+                             TransactionalOperationsUtil transactionalOperationsUtil) {
+        this.converter = converter;
+        this.jpaRepository = jpaRepository;
+        this.transactionalOperationsUtil = transactionalOperationsUtil;
+    }
 
     @Override
     public VM saveOrUpdate(VM vm) {

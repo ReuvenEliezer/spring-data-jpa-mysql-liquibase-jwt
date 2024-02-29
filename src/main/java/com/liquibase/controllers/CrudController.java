@@ -2,7 +2,6 @@ package com.liquibase.controllers;
 
 import com.liquibase.client_entities.AbstractEntityViewModel;
 import com.liquibase.services.web.EntityWebService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +9,11 @@ import java.util.List;
 
 public abstract class CrudController<VM extends AbstractEntityViewModel, ID> {
 
-    @Autowired
-    protected EntityWebService<VM, ID> webService;
+    protected final EntityWebService<VM, ID> webService;
 
+    CrudController(EntityWebService<VM, ID> webService) {
+        this.webService = webService;
+    }
 
     @PostMapping()
     public VM saveOrUpdate(@RequestBody VM entity) {

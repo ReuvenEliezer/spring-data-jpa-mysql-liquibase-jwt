@@ -4,5 +4,5 @@ import com.liquibase.entities.Note;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 //@Repository
-public interface NoteDao extends JpaRepository<Note, Long>  {
+public interface NoteDao extends JpaRepository<Note, Long> {
 }

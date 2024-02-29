@@ -4,7 +4,6 @@ import com.liquibase.entities.AbstractEntity;
 import com.liquibase.entities.Note;
 import com.liquibase.repositories.AbstractEntityDao;
 import com.liquibase.repositories.NoteDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +11,14 @@ import java.util.List;
 @Service
 public class AServiceImpl implements ServiceApp {
 
-    @Autowired
-    private NoteDao noteDao;
+    private final NoteDao noteDao;
 
-    @Autowired
-    private AbstractEntityDao abstractEntityDao;
+    private final AbstractEntityDao abstractEntityDao;
+
+    public AServiceImpl(NoteDao noteDao, AbstractEntityDao abstractEntityDao) {
+        this.noteDao = noteDao;
+        this.abstractEntityDao = abstractEntityDao;
+    }
 
 
     @Override

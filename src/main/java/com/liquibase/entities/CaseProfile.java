@@ -21,7 +21,7 @@ public class CaseProfile implements Serializable {
     private CaseProfilePK pk;
 
     public CaseProfile() {
-      pk = new CaseProfilePK();
+        pk = new CaseProfilePK();
     }
 
 

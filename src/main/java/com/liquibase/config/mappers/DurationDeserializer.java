@@ -9,9 +9,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.time.Duration;
 
-/**
- * Created by dudim on 30/01/2017.
- */
+
 public class DurationDeserializer extends StdDeserializer<Duration> {
 
     public DurationDeserializer() {

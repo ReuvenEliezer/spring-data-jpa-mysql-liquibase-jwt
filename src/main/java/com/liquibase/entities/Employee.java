@@ -13,7 +13,7 @@ public class Employee extends AbstractEntity {
 
     @Email
     @NotEmpty
-    @Column(name = "email", unique=true)
+    @Column(name = "email", unique = true)
     private String email;
     @NotEmpty
     @Column(name = "password")
@@ -75,7 +75,7 @@ public class Employee extends AbstractEntity {
         project.getEmployees().add(this);
     }
 
-    public void removeProject(Project project){
+    public void removeProject(Project project) {
         this.projects.remove(project);
         project.getEmployees().remove(this);
     }

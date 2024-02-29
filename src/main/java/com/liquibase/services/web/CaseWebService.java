@@ -3,9 +3,11 @@ package com.liquibase.services.web;
 import com.liquibase.client_entities.CaseViewModel;
 import com.liquibase.entities.Case;
 import com.liquibase.repositories.CaseDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.liquibase.services.transactional.TransactionalOperationsUtil;
+import com.liquibase.services.web.convert.EntityVmConverter;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,8 +15,15 @@ import java.util.List;
 @Component
 public class CaseWebService extends AbstractEntityWebService<Case, CaseViewModel, Long> {
 
-    @Autowired
-    private CaseDao caseDao;
+    private final CaseDao caseDao;
+
+    CaseWebService(EntityVmConverter<Case, CaseViewModel> converter,
+                   JpaRepository<Case, Long> jpaRepository,
+                   TransactionalOperationsUtil transactionalOperationsUtil,
+                   CaseDao caseDao) {
+        super(converter, jpaRepository, transactionalOperationsUtil);
+        this.caseDao = caseDao;
+    }
 
 
     @Override

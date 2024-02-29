@@ -4,11 +4,10 @@ import com.liquibase.entities.Author;
 import com.liquibase.entities.Book;
 import com.liquibase.services.transactional.TransactionHandler;
 import com.liquibase.services.transactional.TransactionalOperationsUtil;
+import jakarta.transaction.Transactional;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import jakarta.transaction.Transactional;
 
 import java.util.UUID;
 

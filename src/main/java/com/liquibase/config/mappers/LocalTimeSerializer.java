@@ -24,7 +24,7 @@ public class LocalTimeSerializer extends StdSerializer<LocalTime> {
         if (value == null)
             value = LocalTime.MIDNIGHT;
 
-        jgen.writeRawValue("\"" +value.toString() + "\"");
+        jgen.writeRawValue("\"" + value.toString() + "\"");
     }
 
 

@@ -1,18 +1,16 @@
 package com.liquibase.entities;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
-import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "course")
 @Data
-public class Course extends AbstractEntity{
+public class Course extends AbstractEntity {
 
     @Column(name = "name")
     private String name;

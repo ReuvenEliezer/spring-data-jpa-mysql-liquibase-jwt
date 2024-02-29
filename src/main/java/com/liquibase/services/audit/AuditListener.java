@@ -1,9 +1,8 @@
 package com.liquibase.services.audit;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class AuditListener extends AbstractRequestLoggingFilter {

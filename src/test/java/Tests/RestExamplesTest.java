@@ -4,13 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liquibase.entities.Author;
 import com.liquibase.entities.Book;
-import com.liquibase.entities.Case;
 import com.liquibase.entities.Note;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -25,7 +23,7 @@ public class RestExamplesTest extends AbstractTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void PostTest() throws InterruptedException {
+    public void postTest() throws InterruptedException {
         Note note = new Note();
         note.setContent("Content");
         note.setTitle("title");

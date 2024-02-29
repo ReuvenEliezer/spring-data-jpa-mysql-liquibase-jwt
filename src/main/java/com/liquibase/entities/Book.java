@@ -1,9 +1,8 @@
 package com.liquibase.entities;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
-
-import jakarta.persistence.*;
 
 @Getter
 @ToString(callSuper = true)

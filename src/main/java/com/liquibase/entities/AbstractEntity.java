@@ -3,12 +3,10 @@ package com.liquibase.entities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.liquibase.services.audit.AuditTrailListener;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 

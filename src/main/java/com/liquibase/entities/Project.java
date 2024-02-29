@@ -1,6 +1,7 @@
 package com.liquibase.entities;
 
 import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public class Project extends AbstractEntity {
     private String title;
 
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "projects")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "projects")
     private Set<Employee> employees = new HashSet<>();
 
     public void addEmployee(Employee employee) {

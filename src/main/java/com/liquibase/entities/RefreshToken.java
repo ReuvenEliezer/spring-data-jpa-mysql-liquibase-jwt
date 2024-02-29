@@ -1,6 +1,5 @@
 package com.liquibase.entities;
 
-import jakarta.persistence.Column;
 import lombok.*;
 
 import java.time.LocalDateTime;

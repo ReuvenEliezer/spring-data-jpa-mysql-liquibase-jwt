@@ -1,11 +1,11 @@
 package com.liquibase.entities;
 
-import lombok.*;
-
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.*;
+
 import java.io.Serializable;
 
 @Embeddable
@@ -24,12 +24,12 @@ public class CaseProfilePK implements Serializable {
      * By default, for all collection and map objects the fetching rule is FetchType.LAZY and for other instances it follows the FetchType.EAGER policy.
      * In brief, @OneToMany and @ManyToMany relations does not fetch the related objects (collection and map) implicictly but the retrieval operation is cascaded through the field in @OneToOne and @ManyToOne ones.
      */
-    @JoinColumn(name = "profile_id",referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.EAGER)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Profile profile;
 
-    @JoinColumn(name = "case_id",referencedColumnName = "id")
-    @ManyToOne(optional = false,fetch = FetchType.EAGER)
+    @JoinColumn(name = "case_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Case aCase;
 
 

@@ -8,7 +8,6 @@ import com.liquibase.entities.Profile;
 import com.liquibase.repositories.CaseDao;
 import com.liquibase.repositories.CaseProfileDao;
 import com.liquibase.repositories.ProfileDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -21,17 +20,23 @@ import java.util.stream.Collectors;
 public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewModel> {
 
 
-    @Autowired
-    private CaseDao caseDao;
+    private final CaseDao caseDao;
 
-    @Autowired
-    private ProfileDao profileDao;
+    private final ProfileDao profileDao;
 
-    @Autowired
-    private CaseProfileDao caseProfileDao;
+    private final CaseProfileDao caseProfileDao;
 
-    @Autowired
-    private ProfileVmConverter profileVmConverter;
+    private final ProfileVmConverter profileVmConverter;
+
+    public CaseVmConverter(CaseDao caseDao,
+                           ProfileDao profileDao,
+                           CaseProfileDao caseProfileDao,
+                           ProfileVmConverter profileVmConverter) {
+        this.caseDao = caseDao;
+        this.profileDao = profileDao;
+        this.caseProfileDao = caseProfileDao;
+        this.profileVmConverter = profileVmConverter;
+    }
 
 
     @Override

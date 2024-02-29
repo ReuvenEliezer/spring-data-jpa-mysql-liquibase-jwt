@@ -23,12 +23,12 @@ public class LocalTimeDeserializer extends StdDeserializer<LocalTime> {
     public LocalTime deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         JsonNode node = jp.getCodec().readTree(jp);
 
-        if (node == null || node.toString() == null){
+        if (node == null || node.toString() == null) {
             return LocalTime.MIDNIGHT;
         }
 
         String text = node.toString();
-        text = text.replace("\"","");
+        text = text.replace("\"", "");
         String[] values = text.split(":");
 
 

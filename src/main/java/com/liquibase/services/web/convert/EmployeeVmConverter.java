@@ -1,27 +1,19 @@
 package com.liquibase.services.web.convert;
 
-import com.liquibase.client_entities.CaseThinViewModel;
 import com.liquibase.client_entities.EmployeeViewModel;
-import com.liquibase.client_entities.ProfileViewModel;
-import com.liquibase.entities.CaseProfile;
 import com.liquibase.entities.Employee;
-import com.liquibase.entities.Profile;
-import com.liquibase.repositories.CaseProfileDao;
 import com.liquibase.repositories.EmployeeDao;
-import com.liquibase.repositories.ProfileDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class EmployeeVmConverter extends AbstractEntityVmConverter<Employee, EmployeeViewModel> {
 
 
-    @Autowired
-    private EmployeeDao employeeDao;
+    private final EmployeeDao employeeDao;
+
+    public EmployeeVmConverter(EmployeeDao employeeDao) {
+        this.employeeDao = employeeDao;
+    }
 
     @Override
     protected void setEntity(Employee employee, EmployeeViewModel employeeViewModel) {

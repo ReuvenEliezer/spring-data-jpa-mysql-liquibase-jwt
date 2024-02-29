@@ -4,7 +4,6 @@ import Tests.config.WebSecurityTestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liquibase.LiquibaseApplication;
 import com.liquibase.config.DbConnectionProp;
-import com.liquibase.controllers.ControllerExceptionHandler;
 import com.liquibase.repositories.AuthorDao;
 import com.liquibase.repositories.BookDao;
 import com.liquibase.repositories.NoteDao;
@@ -24,8 +23,8 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import javax.sql.DataSource;
@@ -45,12 +44,11 @@ public class AbstractTest {
     protected static final String localhost = "http://localhost:";
     @Container
     private static MySQLContainer<?> mySQLContainer = new MySQLContainer<>(
-            DockerImageName.parse("mysql:latest")
+            DockerImageName.parse("mysql:8.3.0")
     )
             .withDatabaseName("netapp")
             .withUsername("root")
-            .withPassword("administrator")
-            ;
+            .withPassword("administrator");
 
     @Autowired
     private DataSource dataSource;

@@ -1,6 +1,7 @@
 package com.liquibase.entities;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 

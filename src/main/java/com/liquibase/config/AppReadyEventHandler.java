@@ -1,20 +1,21 @@
 package com.liquibase.config;
 
 import com.liquibase.services.ServiceApp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class AppReadyEventHandler implements ApplicationListener<ApplicationReadyEvent> {
 
 
-    @Autowired
-    private Map<String, ServiceApp> services = new HashMap<>();
+    private final Map<String, ServiceApp> services;
+
+    public AppReadyEventHandler(Map<String, ServiceApp> services) {
+        this.services = services;
+    }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {

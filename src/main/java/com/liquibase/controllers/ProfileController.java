@@ -4,9 +4,9 @@ import com.liquibase.client_entities.CaseViewModel;
 import com.liquibase.client_entities.ProfileViewModel;
 import com.liquibase.entities.CaseProfile;
 import com.liquibase.repositories.CaseProfileDao;
+import com.liquibase.services.web.EntityWebService;
 import com.liquibase.services.web.convert.CaseVmConverter;
 import com.liquibase.utils.WsAddressConstants;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +19,15 @@ import java.util.stream.Collectors;
 @RequestMapping(WsAddressConstants.profileLogicUrl)
 public class ProfileController extends CrudController<ProfileViewModel, Long> {
 
-    @Autowired
-    private CaseProfileDao caseProfileDao;
+    private final CaseProfileDao caseProfileDao;
 
-    @Autowired
-    private CaseVmConverter caseVmConverter;
+    private final CaseVmConverter caseVmConverter;
+
+    public ProfileController(EntityWebService<ProfileViewModel, Long> webService, CaseProfileDao caseProfileDao, CaseVmConverter caseVmConverter) {
+        super(webService);
+        this.caseProfileDao = caseProfileDao;
+        this.caseVmConverter = caseVmConverter;
+    }
 
     @GetMapping(value = "/getAllCases/{profileId}")
     public List<CaseViewModel> getAllCasesByProfile(@PathVariable Long profileId) {
