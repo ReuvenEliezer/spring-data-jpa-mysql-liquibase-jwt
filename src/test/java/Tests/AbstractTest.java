@@ -79,7 +79,7 @@ public class AbstractTest {
 //    @Value("${connectionURL}")
 //    private String connectionURL;
 
-    @Value("${spring.server.port}")
+    @Value("${server.port}")
     protected Integer serverPort;
 
     @Autowired
