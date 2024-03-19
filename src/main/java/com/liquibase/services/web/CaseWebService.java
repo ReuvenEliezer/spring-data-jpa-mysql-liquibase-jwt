@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
@@ -93,21 +92,11 @@ public class CaseWebService extends AbstractEntityWebService<Case, CaseViewModel
         }
 
         List<Profile> profileAlreadyExists = alreadyExists.stream().map(CaseProfile::getProfile).toList();
-        Set<CaseProfile> caseProfiles = profileList.stream()
+        List<CaseProfile> caseProfiles = profileList.stream()
                 .filter(profile -> !profileAlreadyExists.contains(profile))
                 .map(profile -> new CaseProfile(profile, caseEntity))
-                .collect(Collectors.toSet());
+                .toList();
         if (!caseProfiles.isEmpty()) {
-            //if we have new cases -> save them before caseProfiles:
-//            List<Case> casesToSave = caseProfiles.stream()
-//                    .map(CaseProfile::getCase)
-//                    .filter(c -> c.getId() == null)
-//                    .collect(Collectors.toMap(Case::getName, Function.identity(), (existing, replacement) -> existing)).values().stream()
-//                    .toList();
-//            if (!casesToSave.isEmpty()) {
-//                caseDao.saveAll(casesToSave);
-//            }
-
             caseProfileDao.saveAll(caseProfiles);
         }
     }
