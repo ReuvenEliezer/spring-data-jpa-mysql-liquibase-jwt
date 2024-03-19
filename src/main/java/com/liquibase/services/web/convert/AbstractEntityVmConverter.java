@@ -2,6 +2,7 @@ package com.liquibase.services.web.convert;
 
 import com.liquibase.client_entities.AbstractEntityViewModel;
 import com.liquibase.entities.AbstractEntity;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,5 +47,10 @@ public abstract class AbstractEntityVmConverter<E extends AbstractEntity, VM ext
     protected abstract void setEntity(E entity, VM vm);
 
     protected abstract E findById(Long id);
+
+    @Override
+    public VM convertToVM(E entity, boolean includeChildren){
+        throw new NotImplementedException();
+    }
 
 }

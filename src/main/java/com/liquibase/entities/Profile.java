@@ -14,8 +14,8 @@ import lombok.ToString;
 @Table(name = "profile")
 public class Profile extends BaseEntity {
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "name")
+    private String name;
     @Column(name = "photo")
     private String photo;
 }

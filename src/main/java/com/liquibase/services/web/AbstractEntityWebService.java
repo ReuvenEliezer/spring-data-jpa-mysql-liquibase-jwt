@@ -34,18 +34,21 @@ public abstract class AbstractEntityWebService<E extends AbstractEntity, VM exte
             E e = converter.convertFromVM(vm);
             if (e == null)
                 return null;
-            return jpaRepository.save(e);
+            return innerSave(e, vm);
         });
-//        return converter.convertToVM(entity, true);
-        return converter.convertToVM(entity);
+        return converter.convertToVM(entity, true);
+//        return converter.convertToVM(entity);
+    }
 
+    protected E innerSave(E entity, VM vm) {
+        return jpaRepository.save(entity);
     }
 
     @Override
     public VM findById(ID id) {
         E entity = findEntityById(id);
-//        return converter.convertToVM(entity, true);
-        return converter.convertToVM(entity);
+        return converter.convertToVM(entity, true);
+//        return converter.convertToVM(entity);
     }
 
     @Override

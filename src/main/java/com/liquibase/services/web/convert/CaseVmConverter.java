@@ -10,30 +10,23 @@ import com.liquibase.repositories.CaseProfileDao;
 import com.liquibase.repositories.ProfileDao;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
 public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewModel> {
 
-
     private final CaseDao caseDao;
-
-    private final ProfileDao profileDao;
 
     private final CaseProfileDao caseProfileDao;
 
     private final ProfileVmConverter profileVmConverter;
 
     public CaseVmConverter(CaseDao caseDao,
-                           ProfileDao profileDao,
                            CaseProfileDao caseProfileDao,
                            ProfileVmConverter profileVmConverter) {
         this.caseDao = caseDao;
-        this.profileDao = profileDao;
         this.caseProfileDao = caseProfileDao;
         this.profileVmConverter = profileVmConverter;
     }
@@ -44,41 +37,6 @@ public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewMod
         if (caseViewModel == null || caseEntity == null)
             throw new IllegalArgumentException();
         caseEntity.setName(caseViewModel.getName());
-
-        handleProfiles(caseEntity, caseViewModel);
-    }
-
-    private void handleProfiles(Case caseEntity, CaseViewModel caseViewModel) {
-        Set<Profile> profileList = caseViewModel.getProfileList().stream()
-                .map(profileVmConverter::convertFromVM)
-                .collect(Collectors.toSet());
-
-        Set<Profile> profileNonExistInDbSet = new HashSet<>();
-        for (Profile profile : profileList) {
-            if (profile.getId() == null || !profileDao.findById(profile.getId()).isPresent()) {
-                //TODO error profile not exist in db
-                profileNonExistInDbSet.add(profile);
-            }
-        }
-        profileList.removeAll(profileNonExistInDbSet);
-
-        if (profileList.isEmpty())
-            return;
-
-        Set<CaseProfile> alreadyExists = new HashSet<>(caseProfileDao.getAllByCase(caseEntity.getId()));
-
-        Set<CaseProfile> caseProfilesToDelete = alreadyExists.stream()
-                .filter(caseProfile -> !profileList.contains(caseProfile.getProfile()))
-                .collect(Collectors.toSet());
-        if (!caseProfilesToDelete.isEmpty())
-            caseProfileDao.deleteAll(caseProfilesToDelete);
-
-        Set<CaseProfile> caseProfiles = profileList.stream()
-                .filter(profile -> !alreadyExists.contains(profile))
-                .map(profile -> new CaseProfile(profile, caseEntity))
-                .collect(Collectors.toSet());
-        if (!caseProfiles.isEmpty())
-            caseProfileDao.saveAll(caseProfiles);
     }
 
     @Override
@@ -92,22 +50,26 @@ public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewMod
     }
 
     @Override
-//    public CaseViewModel convertToVM(Case entity, boolean includeChildren) {
     public CaseViewModel convertToVM(Case entity) {
+        return convertToVM(entity, false);
+    }
+
+    @Override
+    public CaseViewModel convertToVM(Case entity, boolean includeChildren) {
+//    public CaseViewModel convertToVM(Case entity) {
         if (entity == null) return null;
         CaseViewModel caseViewModel = new CaseViewModel();
         caseViewModel.setName(entity.getName());
         caseViewModel.setId(entity.getId());
-//        if (includeChildren) {
-        List<CaseProfile> allByCase = caseProfileDao.getAllByCase(entity.getId());
-        List<ProfileViewModel> profileList = allByCase.stream()
-                .map(CaseProfile::getProfile)
-//                    .map(e -> profileVmConverter.convertToVM(e, false))
-                .map(profileVmConverter::convertToVM)
-                .sorted(Comparator.comparing(ProfileViewModel::getFirstName))
-                .collect(Collectors.toList());
-        caseViewModel.setProfileList(profileList);
-//        }
+        if (includeChildren) {
+            List<CaseProfile> allByCase = caseProfileDao.getAllByCase(entity.getId());
+            List<ProfileViewModel> profileList = allByCase.stream()
+                    .map(CaseProfile::getProfile)
+                    .map(profileVmConverter::convertToVM)
+                    .sorted(Comparator.comparing(ProfileViewModel::getName))
+                    .toList();
+            caseViewModel.setProfileList(profileList);
+        }
         return caseViewModel;
     }
 
