@@ -18,7 +18,7 @@ import java.io.Serializable;
         visible = false)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CaseViewModel.class, name = "CaseViewModel"),
-        @JsonSubTypes.Type(value = CaseThinViewModel.class, name = "CaseThinViewModel"),
+//        @JsonSubTypes.Type(value = CaseThinViewModel.class, name = "CaseThinViewModel"),
         @JsonSubTypes.Type(value = ProfileViewModel.class, name = "ProfileViewModel"),
         @JsonSubTypes.Type(value = EmployeeViewModel.class, name = "EmployeeViewModel"),
 })
