@@ -80,7 +80,7 @@ public class GeneralConfig {
     //    }
     @Bean
     public Formatter<LocalDate> localDateFormatter() {
-        return new Formatter<LocalDate>() {
+        return new Formatter<>() {
             @Override
             public LocalDate parse(String text, Locale locale) {
                 return LocalDate.parse(text, DateTimeFormatter.ISO_DATE);
@@ -95,7 +95,7 @@ public class GeneralConfig {
 
     @Bean
     public Formatter<LocalDateTime> localDateTimeFormatter() {
-        return new Formatter<LocalDateTime>() {
+        return new Formatter<>() {
             @Override
             public LocalDateTime parse(String text, Locale locale) {
                 return LocalDateTime.parse(text, DateTimeFormatter.ISO_DATE_TIME);

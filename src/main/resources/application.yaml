@@ -50,3 +50,9 @@ spring:
   output:
     ansi:
       enabled: always
+springdoc:
+  version: '@springdoc.version@'
+  api-docs:
+    version: openapi_3_0
+  swagger-ui:
+    use-root-path: true

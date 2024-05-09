@@ -106,6 +106,7 @@ public class CaseWebService extends AbstractEntityWebService<Case, CaseViewModel
         return caseDao.findNonDeleted(id);
     }
 
+    @Override
     protected List<Case> innerFindAll(Pageable pageable) {
         /**
          * Example.of is return all cases that isDeleted==false, because of the default value of Case entity is isDeleted=false
