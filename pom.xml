@@ -22,7 +22,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!--        <skipTests>false</skipTests>-->
         <springdoc.version>2.5.0</springdoc.version>
-        <jwt.version>0.12.5</jwt.version>
+        <jwt.version>0.12.6</jwt.version>
     </properties>
 
     <dependencies>
