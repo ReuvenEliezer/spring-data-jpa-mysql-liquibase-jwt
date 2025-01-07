@@ -18,6 +18,8 @@ spring:
 ##    Action:
 ##    Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
 #    allow-circular-references: true #https://www.baeldung.com/circular-dependencies-in-spring
+  profiles:
+    active: default
   liquibase:
     enabled: false # change to true in order to use a real db and run schema
     change-log: classpath:/liquibase/changelog-master.xml
