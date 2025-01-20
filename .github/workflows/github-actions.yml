@@ -51,7 +51,7 @@ jobs:
         with:
           report_paths: target/surefire-reports/*.xml
       - name: JUnit Test Report #for analysis tests report as a table
-        uses:  dorny/test-reporter@v1.9.1 #{owner}/{repository}@{ref}
+        uses: dorny/test-reporter@v1.9.1 #{owner}/{repository}@{ref}
         if: always()
         with:
           name: Maven Tests
