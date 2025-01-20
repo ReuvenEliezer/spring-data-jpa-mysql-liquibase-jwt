@@ -14,7 +14,7 @@ public class WebRestConfig {
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder
                 .connectTimeout(Duration.ofSeconds(2))
-//                .setReadTimeout(Duration.ofSeconds(5))
+//                .readTimeout(Duration.ofSeconds(5))
 //                .basicAuthentication("username", "password")
                 .build();
     }
