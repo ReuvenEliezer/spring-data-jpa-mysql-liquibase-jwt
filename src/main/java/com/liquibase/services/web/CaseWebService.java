@@ -4,9 +4,9 @@ import com.liquibase.client_entities.CaseViewModel;
 import com.liquibase.entities.Case;
 import com.liquibase.entities.CaseProfile;
 import com.liquibase.entities.Profile;
+import com.liquibase.client_entities.ProfileViewModel;
 import com.liquibase.repositories.CaseDao;
 import com.liquibase.repositories.CaseProfileDao;
-import com.liquibase.repositories.ProfileDao;
 import com.liquibase.services.transactional.TransactionalOperationsUtil;
 import com.liquibase.services.web.convert.EntityVmConverter;
 import com.liquibase.services.web.convert.ProfileVmConverter;
@@ -15,8 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,20 +30,16 @@ public class CaseWebService extends AbstractEntityWebService<Case, CaseViewModel
 
     private final ProfileVmConverter profileVmConverter;
 
-    private final ProfileDao profileDao;
-
     CaseWebService(EntityVmConverter<Case, CaseViewModel> converter,
                    JpaRepository<Case, Long> jpaRepository,
                    TransactionalOperationsUtil transactionalOperationsUtil,
                    CaseDao caseDao,
                    CaseProfileDao caseProfileDao,
-                   ProfileVmConverter profileVmConverter,
-                   ProfileDao profileDao) {
+                   ProfileVmConverter profileVmConverter) {
         super(converter, jpaRepository, transactionalOperationsUtil);
         this.caseDao = caseDao;
         this.caseProfileDao = caseProfileDao;
         this.profileVmConverter = profileVmConverter;
-        this.profileDao = profileDao;
     }
 
 
@@ -64,36 +61,47 @@ public class CaseWebService extends AbstractEntityWebService<Case, CaseViewModel
         return save;
     }
 
+    /**
+     * Reconciles the case's profile associations with what the view model asks for.
+     * <p>
+     * Diffing is done on profile ids read off {@link CaseProfile#getId()} rather than on entity
+     * equality: the associations are lazy, so {@code getProfile()} can hand back a proxy, and
+     * {@code AbstractEntity.equals} compares with {@code getClass()} - a proxy never matches a
+     * loaded instance. Reading the id off the key also costs no database access.
+     * <p>
+     * An empty {@code profileList} means "this case has no profiles" and must still run the
+     * deletion pass, otherwise the last association can never be removed.
+     */
     private void handleProfiles(Case caseEntity, CaseViewModel caseViewModel) {
-        Set<Profile> profileList = caseViewModel.getProfileList().stream()
-                .map(profileVmConverter::convertFromVM)
-                .collect(Collectors.toSet());
+        List<ProfileViewModel> profileViewModels = caseViewModel.getProfileList() == null
+                ? List.of()
+                : caseViewModel.getProfileList();
 
-        Set<Profile> profileNonExistInDbSet = new HashSet<>();
-        for (Profile profile : profileList) {
-            if (profile.getId() == null || profileDao.findById(profile.getId()).isEmpty()) {
+        Map<Long, Profile> requestedProfilesById = new LinkedHashMap<>();
+        for (ProfileViewModel profileViewModel : profileViewModels) {
+            Profile profile = profileVmConverter.convertFromVM(profileViewModel);
+            if (profile == null || profile.getId() == null) {
                 //TODO error profile not exist in db
-                profileNonExistInDbSet.add(profile);
+                continue;
             }
-        }
-        profileList.removeAll(profileNonExistInDbSet);
-
-        if (profileList.isEmpty()) {
-            return;
+            requestedProfilesById.putIfAbsent(profile.getId(), profile);
         }
 
-        Set<CaseProfile> alreadyExists = new HashSet<>(caseProfileDao.getAllByCase(caseEntity.getId()));
+        List<CaseProfile> alreadyExists = caseProfileDao.findAllByIdCaseId(caseEntity.getId());
 
-        Set<CaseProfile> caseProfilesToDelete = alreadyExists.stream()
-                .filter(caseProfile -> !profileList.contains(caseProfile.getProfile()))
-                .collect(Collectors.toSet());
+        List<CaseProfile> caseProfilesToDelete = alreadyExists.stream()
+                .filter(caseProfile -> !requestedProfilesById.containsKey(caseProfile.getId().getProfileId()))
+                .toList();
         if (!caseProfilesToDelete.isEmpty()) {
             caseProfileDao.deleteAll(caseProfilesToDelete);
         }
 
-        List<Profile> profileAlreadyExists = alreadyExists.stream().map(CaseProfile::getProfile).toList();
-        List<CaseProfile> caseProfiles = profileList.stream()
-                .filter(profile -> !profileAlreadyExists.contains(profile))
+        Set<Long> profileIdsAlreadyExists = alreadyExists.stream()
+                .map(caseProfile -> caseProfile.getId().getProfileId())
+                .collect(Collectors.toSet());
+
+        List<CaseProfile> caseProfiles = requestedProfilesById.values().stream()
+                .filter(profile -> !profileIdsAlreadyExists.contains(profile.getId()))
                 .map(profile -> new CaseProfile(profile, caseEntity))
                 .toList();
         if (!caseProfiles.isEmpty()) {
