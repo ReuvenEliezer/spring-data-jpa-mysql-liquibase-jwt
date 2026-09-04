@@ -137,7 +137,7 @@ public class CaseTest extends AbstractTest {
 //        Assert.assertFalse(byId.isPresent());
 
         List<CaseProfile> all = caseProfileDao.findAll();
-        CaseProfile caseProfile1 = caseProfileDao.getCaseProfile(caseA.getId(), profile1.getId());
+        assertThat(caseProfileDao.findByIdCaseIdAndIdProfileId(caseA.getId(), profile1.getId())).isPresent();
     }
 
 }

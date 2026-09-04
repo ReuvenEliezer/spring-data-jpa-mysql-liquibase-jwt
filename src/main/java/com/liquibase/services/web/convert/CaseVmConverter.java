@@ -3,7 +3,6 @@ package com.liquibase.services.web.convert;
 import com.liquibase.client_entities.CaseViewModel;
 import com.liquibase.client_entities.ProfileViewModel;
 import com.liquibase.entities.Case;
-import com.liquibase.entities.CaseProfile;
 import com.liquibase.entities.Profile;
 import com.liquibase.repositories.CaseDao;
 import com.liquibase.repositories.CaseProfileDao;
@@ -62,9 +61,7 @@ public class CaseVmConverter extends AbstractEntityVmConverter<Case, CaseViewMod
         caseViewModel.setName(entity.getName());
         caseViewModel.setId(entity.getId());
         if (includeChildren) {
-            List<CaseProfile> allByCase = caseProfileDao.getAllByCase(entity.getId());
-            List<ProfileViewModel> profileList = allByCase.stream()
-                    .map(CaseProfile::getProfile)
+            List<ProfileViewModel> profileList = caseProfileDao.findProfilesByCaseId(entity.getId()).stream()
                     .map(profileVmConverter::convertToVM)
                     .sorted(Comparator.comparing(ProfileViewModel::getName))
                     .toList();
